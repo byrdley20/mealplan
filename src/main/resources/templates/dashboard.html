@@ -1,0 +1,473 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Byrd Meal Plan</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW"/>
+	
+	<link rel="stylesheet" href="/css/jqueryui/1.11.3/jquery-ui.css" th:href="@{~/css/jqueryui/1.12.0/jquery-ui.min.css}"/>
+	<link rel="stylesheet" href="/css/main.css" th:href="@{~/css/main.css}"/>
+	<link rel="stylesheet" href="/css/fullcalendar.css" th:href="@{~/css/fullcalendar.css}"/>
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/qtip2/3.0.3/basic/jquery.qtip.min.css" th:href="@{//cdnjs.cloudflare.com/ajax/libs/qtip2/3.0.3/basic/jquery.qtip.min.css}"/>
+    
+    <script type="text/javascript" src="//code.jquery.com/jquery-3.1.0.min.js" th:src="@{//code.jquery.com/jquery-3.1.0.min.js}"></script>
+	<script type="text/javascript" src="//code.jquery.com/ui/1.12.1/jquery-ui.min.js" th:src="@{//code.jquery.com/ui/1.12.1/jquery-ui.min.js}"></script>
+	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/qtip2/3.0.3/basic/jquery.qtip.min.js" th:src="@{//cdnjs.cloudflare.com/ajax/libs/qtip2/3.0.3/basic/jquery.qtip.min.js}"></script>
+	<script type="text/javascript" src="/js/moment.min.js" th:src="@{~/js/moment.min.js}"></script>
+	<script type="text/javascript" src="/js/fullcalendar.js" th:src="@{~/js/fullcalendar.js}"></script>
+    
+    <script type="text/javascript" src="/js/main.js" th:src="@{~/js/main.js}"></script>
+    <script th:inline="javascript">
+    	/*<![CDATA[*/
+    	    var tags = {};
+    		var mealTypes = {};
+    		var allLunches = /*[[${allLunches}]]*/;
+    		var allDinners = /*[[${allDinners}]]*/;
+    		var lunchMealTypeId = /*[[${lunchMealTypeId}]]*/;
+    		var dinnerMealTypeId = /*[[${dinnerMealTypeId}]]*/;
+    	    
+			function buildOptions(){
+				var allTags = /*[[${allTags}]]*/;
+				for(var i=0; i < allTags.length; i++) {
+					var tag = allTags[i];
+					tags[tag.id] = tag;
+				}
+				var allMealTypes = /*[[${allMealTypes}]]*/;
+				for(var i=0; i < allMealTypes.length; i++) {
+					var mealType = allMealTypes[i];
+					mealTypes[mealType.name] = mealType;
+				}
+			}
+			
+			$(document).ready(function() {
+				
+				$( document ).tooltip({
+				    content: function() {
+				        return $(this).attr('title');
+				    },
+			        show: null, 
+			        close: function (event, ui) {
+			            ui.tooltip.hover(
+			            function () {
+			                $(this).stop(true).fadeTo(400, 1);
+			            },    
+			            function () {
+			                $(this).fadeOut("400", function () {
+			                    $(this).remove();
+			                })
+			            });
+			        }
+				});
+				
+			    // page is now ready, initialize the calendar...
+				var dragStartDate;
+			    
+			    $('#calendar').fullCalendar({
+			        // put your options and callbacks here
+			    	events: '/rest/recipeAssignments/betweenDates',
+			        eventClick: function(calEvent, jsEvent, view) {
+
+			            //alert('Event: ' + calEvent.title);
+
+			            // change the border color just for fun
+			            //$(this).css('border-color', 'red');
+
+			        },
+			        eventOrder: 'order',
+			        editable: true,
+			        eventRender: function(event, element) {
+			            var titleElement = $(element).find("span.fc-title");
+			            titleElement.html("<span class='deleteIcon' style='background-color:red; display:none; font-size:11px;' data-title='"+event.title+"' data-id='"+event.recipeAssignmentId+"' data-date='"+event.start.format()+"'>DELETE</span> "+titleElement.html());
+			        },
+			        dayRender: function(date, cell) {
+			        	var tags = "<div class='dateTags' data-date="+date.format()+" style='float:left'></div>";
+			        	cell.html("<div style='position:absolute;bottom:0;'>"+tags+"</div>");
+			        },
+			        eventDragStart: function(event, jsEvent, ui, view) {
+			        	dragStartDate = event.start.format();
+			        },
+			        eventDrop: function(event, delta, revertFunc) {
+			            updateRecipeAssignment(event.recipeAssignmentId, dragStartDate, event.start.format());
+			        },
+			        eventMouseover: function(event, jsEvent, view) {
+			            $(this).find(".deleteIcon").toggle("slide");
+			        },
+			        eventMouseout: function(event, jsEvent, view) {
+			            $(this).find(".deleteIcon").toggle("slide");
+			        },
+			        fixedWeekCount: false,
+			        height: function() {
+			        	return $(window).height() - $("#header").height() - 20;
+			        },
+			        customButtons: {
+			            myCustomButton: {
+			                text: 'Generate Recipes',
+			                click: function() {
+			                	var moment = $('#calendar').fullCalendar('getDate');
+			                	
+			                    $.ajax({
+		    			            url: "/rest/recipeAssignments/"+(moment.month()+1)+"/generate",
+		    			            type:'GET',
+		    			            success:function(resObj, status, fullResponse){
+		    			            	$('#calendar').fullCalendar( 'refetchEvents' );
+		    			            },
+		    			            error:function(res){
+		    			            	alert("Error! Unable to generate recipes! Tell Jeff it's broken!");
+		    			            }
+		    			       	});
+			                }
+			            }
+			        },
+			        header: {
+			            left: 'myCustomButton',
+			            center: 'title',
+			            right: 'today prev,next'
+			        },
+			        eventAfterAllRender: function() {
+					    var moment = $('#calendar').fullCalendar('getDate');
+					    $.ajax({
+				            url: "/rest/dateTags/month/"+(moment.month()+1),
+				            type:'GET',
+				            success:function(response){
+				            	$(".dateTags").each(function(index) {
+				            		var thisDate = $(this).attr("data-date");
+				            		var dateTags = response[thisDate];
+				            		var tagText = "";
+									var lunchTagText="";
+									var dinnerTagText="";
+									var lunchDateTagCount=0;
+									var dinnerDateTagCount=0;
+				            		if(dateTags) {
+										var lunchDateTags = dateTags["Lunch"];
+										if(lunchDateTags){
+											lunchDateTagCount=lunchDateTags.length;
+											for (i = 0; i < lunchDateTags.length; i++) { 
+												if(lunchTagText.length > 0) {
+													lunchTagText += "&lt;br&gt;";
+												}
+											    lunchTagText += "<a href=&quot;#&quot; class=&quot;delete-tag&quot; data-id=&quot;"+lunchDateTags[i].dateTagId+"&quot;><img border=&quot;0&quot; alt=&quot;Delete&quot; src=&quot;"+contextPath+"/images/delete.png&quot;/><\a> "+lunchDateTags[i].name;
+											}
+										}
+										var dinnerDateTags = dateTags["Dinner"];
+										if(dinnerDateTags){
+											dinnerDateTagCount=dinnerDateTags.length;
+											for (i = 0; i < dinnerDateTags.length; i++) { 
+												if(dinnerTagText.length > 0) {
+													dinnerTagText += "&lt;br&gt;";
+												}
+											    dinnerTagText += "<a href=&quot;#&quot; class=&quot;delete-tag&quot; data-id=&quot;"+dinnerDateTags[i].dateTagId+"&quot;><img border=&quot;0&quot; alt=&quot;Delete&quot; src=&quot;"+contextPath+"/images/delete.png&quot;/><\a> "+dinnerDateTags[i].name;
+											}
+										}
+									}
+									var addRecipeButton = "<button type='button' class='recipe-button day-button' role='button' data-date="+thisDate+"><span class='button-text'>Add Recipe</span></button>";
+
+									if(lunchTagText.length > 0) {
+										lunchTagText += "<br\>";
+									}
+				            		lunchTagText += "<button type=&quot;button&quot; class=&quot;tag-button day-button&quot; role=&quot;button&quot; data-date="+thisDate+" data-mealType=&quot;Lunch&quot;><span class=&quot;button-text&quot;>Add Lunch Tag</span></button>";
+									tagText += "<span class='lunchTags' title='"+lunchTagText+"'><img src='"+contextPath+"/images/lunch.png'/>"+lunchDateTagCount+"</span> ";
+									if(dinnerTagText.length > 0) {
+										dinnerTagText += "<br\>";
+									}
+									dinnerTagText += "<button type=&quot;button&quot; class=&quot;tag-button day-button&quot; role=&quot;button&quot; data-date="+thisDate+" data-mealType=&quot;Dinner&quot;><span class=&quot;button-text&quot;>Add Dinner Tag</span></button>";
+									tagText += "<span class='dinnerTags' title='"+dinnerTagText+"'><img src='"+contextPath+"/images/dinner.png'/>"+dinnerDateTagCount+"</span>" ;
+									tagText += addRecipeButton;
+									$(this).html(tagText);
+				            	});
+				            },
+				            error:function(res){
+				            	alert("Error! Unable to get date tags! Tell Jeff it's broken!");
+				            }
+				       	});
+			        }
+			    });
+			    
+	    		$(document).on('click','.deleteIcon',function(){
+	    			var id = $(this).attr("data-id");
+	    			$("#deleteDialog").dialog({
+		    		      buttons : {
+		    		        "Yes" : function() {
+		    		        	$.ajax({
+		    			            url: "/rest/recipeAssignments/"+id,
+		    			            type:'DELETE',
+		    			            success:function(resObj, status, fullResponse){
+		    			            	//alert('success!');
+		    			            	$('#calendar').fullCalendar( 'refetchEvents' )
+		    			            },
+		    			            error:function(res){
+		    			            	alert("Error! Unable to remove recipe! Tell Jeff it's broken!");
+		    			            }
+		    			       	});
+		    		        	$(this).dialog("close");
+		    		        },
+		    		        "No" : function() {
+		    		          $(this).dialog("close");
+		    		        }
+		    		      }
+		    		    });
+	    			$("#deleteDialog").html("Are you sure you want to remove '"+$(this).attr("data-title")+"'' from "+$(this).attr("data-date")+"?");
+		    		$("#deleteDialog").dialog("open");
+	    		});
+	    		
+	    		$(document).on('click','.delete-tag',function(){
+	    			var id = $(this).attr("data-id");
+   		        	$.ajax({
+   			            url: "/rest/dateTags/"+id,
+   			            type:'DELETE',
+   			            context: this,
+   			            success:function(resObj, status, fullResponse){
+   			            	//alert('success!');
+   			            	$(this).parent().toggle();
+   			            	$('#calendar').fullCalendar( 'refetchEvents' );
+   			            },
+   			            error:function(res){
+   			            	alert("Error! Unable to remove tag! Tell Jeff it's broken!");
+   			            }
+   			       	});
+	    		});
+	    		
+	    		$(document).on('click','.choose-random-recipe-button',function(){
+	    			var select = document.getElementById('recipe');
+	    	        var items = select.getElementsByTagName('option');
+	    	        var index = Math.floor(Math.random() * items.length);
+	    	        select.selectedIndex = index;
+	    		});
+
+	    		$(document).on('click','.choose-random-recipe-from-all-button',function(){
+	    			var select = document.getElementById('recipeFromAll');
+	    	        var items = select.getElementsByTagName('option');
+	    	        var index = Math.floor(Math.random() * items.length);
+	    	        select.selectedIndex = index;
+	    		});
+	    		
+	    		$("#deleteDialog").dialog({
+	    		      autoOpen: false,
+	    		      modal: true,
+	    		      dialogClass: "no-title"
+	    		});
+	    		
+	    		$("#tagDialog").dialog({
+	    		      autoOpen: false,
+	    		      modal: true,
+	    		      dialogClass: "no-close",
+	    		      buttons: {
+	    		    	  "Save" : function() {
+		    		      		var tagDate = $( "#tagDate" ),
+		    		      		tagMealType = $( "#tagMealType" ),
+		    		      		existingTag = $( "#existingTag" ),
+		    		      		tagName = $( "#tagName" ),
+		    		      		tagDescription = $( "#tagDescription" );
+		    		    		
+		    		        	allFields = $( [] ).add( tagDate ).add( tagMealType ).add( existingTag ).add( tagName ).add( tagDescription );
+								addUpdatePath = "/rest/dateTags/add";
+		    		    		  
+		    		    		saveRecordNoWrite();
+   		                    	$( this ).dialog( "close" );
+   		                  },
+   		               	  "Cancel" : function() {
+		                      $( this ).dialog( "close" );
+		                  }
+   		              }
+	    		});
+	    		
+	    		$("#recipeDialog").dialog({
+	    		      autoOpen: false,
+	    		      modal: true,
+	    		      dialogClass: "no-close",
+	    		      buttons: {
+	    		    	  "Save" : function() {
+		    		      		var recipeDate = $( "#recipeDate" ),
+		    		      		recipeMealType = $( "#recipeMealType" ),
+		    		      		recipe = $( "#recipe" ),
+		    		      		recipeFromAll = $( "#recipeFromAll" );
+		    		    		
+		    		        	allFields = $( [] ).add( recipeDate ).add( recipeMealType ).add( recipe ).add( recipeFromAll );
+								addUpdatePath = "/rest/recipeAssignments/add";
+		    		    		  
+								saveRecordNoWrite();
+   		                      	$( this ).dialog( "close" );
+   		                  },
+   		               	  "Cancel" : function() {
+		                      $( this ).dialog( "close" );
+		                  }
+   		              }
+	    		});
+	    		
+	    		$(document).on('click','.tag-button',function(){
+	        		$("select").val([]);
+	    			$("#tagDialog").find("#tagDate").val($(this).attr("data-date"));
+	    			$("#tagDialog").find("#tagDateDisplay").html($(this).attr("data-date"));
+	        		var tagMealTypeId = mealTypes[$(this).attr("data-mealType")].id;
+	        		$("#tagDialog select#tagMealType").val(tagMealTypeId).change();
+	    			$("#tagDialog").dialog("open");
+	    			$("#tagDialog select#existingTag").focus();
+	    		});
+	    		
+	    		$(document).on('click','.recipe-button',function(){
+	    			$("select").val([]);
+	    			$("#recipeDialog").find("#recipeDate").val($(this).attr("data-date"));
+	    			$("#recipeDialog").find("#recipeDateDisplay").html($(this).attr("data-date"));
+	    			$('#recipeDialog select#recipeMealType').find("option:selected").removeAttr("selected");
+	    			$('#recipeDialog select#recipe').find("option:selected").removeAttr("selected");
+	    			$("#recipeDialog").dialog("open");
+	    		});
+	    		
+	    		$(document).on('click','.lunchTags',function(){
+	    			//alert('tags');
+	    		});
+	    		
+	    		
+	    		$( "#recipeMealType" ).change(function() {
+	    			  // Check input( $( this ).val() ) for validity here
+	    			  var recipeMealType = $( this ).val();
+	    			  
+		            	var recipeFromAllList = $("#addRecipeForm #recipeFromAll");
+	    				recipeFromAllList.empty();
+	    				recipeFromAllList.append(new Option("--", "-1"));
+	    				var recipeMealTypes;
+	    				if(parseInt(recipeMealType) == lunchMealTypeId){
+	    					recipeMealTypes = allLunches;
+	    				} else {
+	    					recipeMealTypes = allDinners;
+	    				}
+	    				$.each(recipeMealTypes, function(index, item) {
+	    					recipeFromAllList.append(new Option(item.name, item.id));
+		            	});
+	    			  
+	    			  if(recipeMealType == -1) {
+	    				  var recipeList = $("#addRecipeForm #recipe");
+	    				  recipeList.empty();
+	    				  recipeList.append(new Option("--", "-1"));
+	    				  var recipeFromAllList = $("#addRecipeForm #recipeFromAll");
+	    				  recipeFromAllList.empty();
+	    				  recipeFromAllList.append(new Option("--", "-1"));
+	    			  } else {
+	    				  var date = $( "#addRecipeForm #recipeDate" ).val();
+	    				  $.ajax({
+	    			            url: "/rest/recipeAssignments/generate/"+date+"/"+recipeMealType,
+	    			            type:'GET',
+	    			            success:function(response){
+	    			            	var recipeList = $("#addRecipeForm #recipe");
+	    			            	recipeList.empty();
+	    			            	recipeList.append(new Option("--", "-1"));
+	    			            	$.each(response, function(index, item) {
+	    			            		recipeList.append(new Option(item.name, item.id));
+	    			            	});
+	    			            },
+	    			            error:function(res){
+	    			            	alert("Error! Unable to find recipe candidates! Tell Jeff it's broken!");
+	    			            }
+	    			       	});
+	    			  }
+	    			  
+	    		});
+			});
+	    	function setSelectValue(formData, element) {
+	    		if (element.name == 'existingTag') {
+	    			formData[element.name] = element.value;
+				} else if (element.name == 'tagMealType') {
+	    			formData[element.name] = element.value;
+				} else if (element.name == 'recipe') {
+	    			formData[element.name] = element.value;
+				} else if (element.name == 'recipeFromAll') {
+	    			formData[element.name] = element.value;
+				} else if (element.name == 'recipeMealType') {
+	    			formData[element.name] = element.value;
+				}
+	    	}
+    		function updateRecipeAssignment(id, oldDate, date) {
+		        $.ajax({
+		            url: "/rest/recipeAssignments/"+id+"/update",
+		            type:'POST',
+		            data: 'oldDate='+oldDate+'&date='+date,
+		            success:function(resObj, status, fullResponse){
+		            	//alert('success!');
+		            },
+		            error:function(res){
+		            	alert("Error! Unable to move recipe! Tell Jeff it's broken!");
+		            }
+		       	});
+    		}
+    	//]]>
+    </script>
+    <style>
+		
+    </style>
+</head>
+<body>
+
+	<div th:replace="includes/header :: header">...</div>
+	
+	<div id="deleteDialog"></div>
+	
+	<div id="tagDialog" title="Add Tag">
+		<p class="validateTips"></p>
+		<form id="addTagForm" action="/rest/dateTags/add" th:action="@{~/rest/dateTags/add}" method="post">
+			<fieldset>
+				Date: <span id="tagDateDisplay"></span>
+				<label for="tagMealType">Meal Type:</label>
+				<select id="tagMealType" name="tagMealType" class="ui-widget-content ui-corner-all">
+					<option value="-1">--</option>
+					<option th:each="mealType : ${allMealTypes}" th:text="${mealType.name}" th:value="${mealType.id}">${mealType.name}</option>
+				</select>
+				<br/><br/>
+				Select Tag
+				<br/><br/>
+				<label for="existingTag">Choose Existing Tag:</label>
+				<select id="existingTag" name="existingTag" class="ui-widget-content ui-corner-all">
+					<option value="-1">--</option>
+					<option th:each="tag : ${allTags}" th:text="${#strings.isEmpty(tag.description)} ? ${tag.name} : (${tag.name} + ' - ' + ${tag.description})" th:value="${tag.id}">${tag.name}</option>
+				</select>
+				--OR--
+				<br/><br/>
+				Create new tag:
+				<br/><br/>
+				<label for="tagName">Tag Name*:</label>
+				<input type="text" name="tagName" id="tagName" class="text ui-widget-content ui-corner-all"/>
+				<label for="tagDescription">Tag Description:</label>
+				<input type="text" name="tagDescription" id="tagDescription" class="text ui-widget-content ui-corner-all"/>
+				<input type="text" name="tagDate" id="tagDate" class="hidden"/>
+				<input type="submit" tabindex="-1" style="position:absolute; top:-1000px"/>
+			</fieldset>
+		</form>
+	</div>
+	
+	<div id="recipeDialog" title="Add Recipe">
+		<p class="validateTips"></p>
+		<form id="addRecipeForm" action="/recipe" th:action="@{~/recipe}" method="post">
+			<fieldset>
+				Date: <span id="recipeDateDisplay"></span>
+				<label for="recipeMealType">Meal Type:</label>
+				<select id="recipeMealType" name="recipeMealType" class="ui-widget-content ui-corner-all">
+					<option value="-1">--</option>
+					<option th:each="mealType : ${allMealTypes}" th:text="${mealType.name}" th:value="${mealType.id}">${mealType.name}</option>
+				</select>
+				<br/><br/>
+				Select Recipe
+				<br/><br/>
+				<label for="tag">From Recipes Matching Tags:</label>
+				<select id="recipe" name="recipe" class="ui-widget-content ui-corner-all">
+					<option value="-1">--</option>
+				</select>
+				<button type='button' class='choose-random-recipe-button day-button' role='button'><span class='button-text'>Choose Random Recipe</span></button>
+				<br/><br/>
+				--OR--
+				<br/><br/>
+				<label for="tag">From All Recipes:</label>
+				<select id="recipeFromAll" name="recipeFromAll" class="ui-widget-content ui-corner-all">
+					<option value="-1">--</option>
+				</select>
+				<button type='button' class='choose-random-recipe-from-all-button day-button' role='button'><span class='button-text'>Choose Random Recipe</span></button>
+				<input type="text" name="recipeDate" id="recipeDate" class="hidden"/>
+				<input type="submit" tabindex="-1" style="position:absolute; top:-1000px"/>
+			</fieldset>
+		</form>	
+	</div>
+	
+	<div id="calendar">
+
+	</div>
+
+</body>
+</html>

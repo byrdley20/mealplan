@@ -1,0 +1,21 @@
+/*.classpath
+/*.project
+/*.settings
+/*.metadata
+*/target/*
+**/rebel.xml
+target/
+*.settings
+*.classpath
+*.project
+bin/
+*.orig
+*.class
+directory/
+*/directory/*
+/*derby.log
+
+# Package Files #
+*.jar
+*.war
+*.ear

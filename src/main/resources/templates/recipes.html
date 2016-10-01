@@ -1,0 +1,264 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Byrd Meal Plan | Recipes</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW"/>
+	
+	<link rel="stylesheet" href="/css/jqueryui/1.11.3/jquery-ui.css" th:href="@{~/css/jqueryui/1.12.0/jquery-ui.min.css}"/>
+	<link rel="stylesheet" href="/css/main.css" th:href="@{~/css/main.css}"/>
+	<link rel="stylesheet" href="/css/fullcalendar.css" th:href="@{~/css/fullcalendar.css}"/>
+	<link rel="stylesheet" href="/css/jquery.qtip.min.css" th:href="@{~/css/jquery.qtip.min.css}"/>
+    
+    <script type="text/javascript" src="/js/jquery/3.0.0/jquery.min.js" th:src="@{~/js/jquery/1.11.2/jquery.min.js}"></script>
+	<script type="text/javascript" src="/js/jqueryui/1.11.4/jquery-ui.custom.min.js" th:src="@{~/js/jqueryui/1.12.0/jquery-ui.min.js}"></script>
+	<script type="text/javascript" src="/js/jquery.qtip.min.js" th:src="@{~/js/jquery.qtip.min.js}"></script>
+    
+    <script type="text/javascript" src="/js/main.js" th:src="@{~/js/main.js}"></script>
+    <script type="text/javascript" src="/js/multiselect.js" th:src="@{~/js/multiselect.js}"></script>
+    <script th:inline="javascript">
+    	/*<![CDATA[*/
+    	          
+		dialogWidth=440;
+    	           
+		var tags = {};
+		var allTags = {};
+    	           
+		function buildOptions(){
+			allTags = /*[[${allTags}]]*/;
+			for(var i=0; i < allTags.length; i++) {
+				var tag = allTags[i];
+				tags[tag.id] = tag;
+			}
+		}
+
+		var lengthValidation = [];
+		
+    	$(function() {
+    		var id = $( "#id" ),
+    		name = $( "#name" ),
+    		description = $( "#description" ),
+    		weight = $( "#weight" ),
+    		lunch = $( "#lunch" ),
+    		dinner = $( "#dinner" ),
+        	tagIds = $( "#tagIds" );
+    		
+        	allFields = $( [] ).add( id ).add( name ).add( description ).add( weight ).add( lunch ).add( dinner ).add( tagIds );
+        	addUpdatePath = "/rest/recipes";
+        	deletePath = "/rest/recipes";
+    		
+    		createDialog(true);
+    		
+    		lengthValidation[lengthValidation.length] = createLengthValidationObject(name, "'Name'", 1, 100);
+    		
+        	$('#multiselect').multiselect({
+        		submitAllLeft: false,
+        		right: '#tagIds'
+        	});
+    		
+       	});
+    	function setSelectValue(formData, element) {
+    		if (element.name == 'tagIds') {
+				for(var i=0; i < element.options.length; i++) {
+					if(typeof formData[element.name] == 'undefined'){
+						formData[element.name] = element.options[i].value
+					} else {
+						formData[element.name] += ',';
+						formData[element.name] += element.options[i].value;
+					}
+				}
+			}
+    	}
+    	function writeCreatedRecord(savedRecord){
+    		var elementBefore;
+    		if($(".records-rows").length){
+    			elementBefore = $(".records-rows");
+    		} else {
+    			elementBefore = $(".records-header");
+    		}
+    		
+    		var tagsText = "";
+    		if(savedRecord.tags != null) {
+	    		$.each(savedRecord.tags, function(key, tag) {
+	    			tagsText += "<span><span>"+tag.name+"</span><br></span>";
+	    		});
+	    	}
+    		
+    		elementBefore.last().after( "<div class='records-rows id"+savedRecord.id+" new-row'>" +
+	    			"<span class='dataCell'>" +
+			    	"<span class='edit icon'><a href='#' class='editLink' data-id='"+savedRecord.id+"'><img border='0' alt='Edit' src='"+contextPath+"/images/edit.png'/></a></span> " +
+			    	"<span class='delete icon'><a href='#' class='deleteLink' data-id='"+savedRecord.id+"'><img border='0' alt='Delete' src='"+contextPath+"/images/delete.png'/></a></span> " +
+			    	"</span>" +
+			    	"<span class='name dataCell'>"+savedRecord.name+"</span> " +
+			    	"<span class='description dataCell'>"+savedRecord.description+"</span> " +
+			    	"<span class='weight dataCell'>"+savedRecord.weight+"</span> " +
+			    	"<span class='lunch dataCell'><input type='checkbox' "+getNewCheckboxValue(savedRecord.lunch)+" disabled='disabled'/></span> " +
+			    	"<span class='dinner dataCell'><input type='checkbox' "+getNewCheckboxValue(savedRecord.dinner)+" disabled='disabled'/></span> " +
+			    	"<span class='tags dataCell' style='vertical-align:bottom;'>"+tagsText+"</span> " +
+			    	"<span class='id cell hidden'>"+savedRecord.id+"</span> " +
+			    	"<span class='tagsList cell hidden'>"+savedRecord.tagsString+"</span> " +
+		    	"</div>" );   
+    	}
+    	function writeEditRecord(savedRecord){
+    		var tagsText = "";
+    		if(savedRecord.tags != null) {
+	    		$.each(savedRecord.tags, function(key, tag) {
+	    			tagsText += "<span><span>"+tag.name+"</span><br></span>";
+	    		});
+	    	}    
+    		
+    		var editedRow = $(".id"+savedRecord.id);
+    		editedRow.find('.name').html(savedRecord.name);
+    		editedRow.find('.description').html(savedRecord.description);
+    		editedRow.find('.weight').html(savedRecord.weight);
+    		editedRow.find('.tags').html(tagsText);
+    		editedRow.find('.lunch input').prop('checked', savedRecord.lunch);
+    		editedRow.find('.dinner input').prop('checked', savedRecord.dinner);
+
+    		editedRow.find('.tagsList').html(savedRecord.tagsString);
+    		editedRow.find('.id').html(savedRecord.id);
+    		editedRow.addClass('new-row');
+    	}
+    	function populateCreateForm() {
+    		var availableTags = $( "[name=availableTags]" );
+    		availableTags.empty();
+    		$( "#tagIds" ).empty();
+    		$.each(allTags, function(key, tag) {   
+    			availableTags.append($("<option/>", {
+        	       	value: tag.id,
+        	       	text: tag.name
+            	}));
+        	});
+    	}
+    	
+    	function populateEditForm(editLink){
+    		$('#addEditForm').find("option:selected").removeAttr("selected");
+    		var editSpan = $(editLink).closest('span.dataCell');
+    		$('#addEditForm').find('#name').val(editSpan.nextAll('span.name').first().html());
+    		$('#addEditForm').find('#description').val(editSpan.nextAll('span.description').first().html());
+    		$('#addEditForm').find('#weight').val(editSpan.nextAll('span.weight').first().html());
+
+    		$('#addEditForm').find('#id').val(editSpan.nextAll('span.id').first().html());
+    		
+    		var lunchValue = editSpan.nextAll('span.lunch').first().find("input").is(':checked');
+    		if(lunchValue){
+        		$('#addEditForm').find('#lunch').prop('checked', true);	
+    		}
+    		var dinnerValue = editSpan.nextAll('span.dinner').first().find("input").is(':checked');
+    		if(dinnerValue){
+        		$('#addEditForm').find('#dinner').prop('checked', true);	
+    		}
+    		
+    		var availableTags = $( "[name=availableTags]" );
+    		var tagIds = $( "#tagIds" );
+    		availableTags.empty();
+    		tagIds.empty();
+    		var tagsList = editSpan.nextAll('span.tagsList').first().html().split("|");
+    		var usedTags = {};
+    		$.each(tagsList, function(key, tagObj) {
+    			var tag = tagObj.split("^");
+    			if(tag[1] && tag[1].trim().length > 0){
+    				tagIds.append($("<option/>", {
+	        	       	value: tag[0],
+	        	       	text: tag[1]
+	            	}));
+    				usedTags[tag[0]] = true;
+    			}
+    		});
+    		$.each(allTags, function(key, availableTag) {
+    			if(!usedTags[availableTag.id]) {
+	   				availableTags.append($("<option/>", {
+	        	       	value: availableTag.id,
+	        	       	text: availableTag.name
+	            	}));
+    			}
+    		}); 
+    	}
+    	function findDeleteName(deleteLink){
+    		return $(deleteLink).closest('span.dataCell').nextAll('span.name').first().html();
+    	}
+    	//]]>
+    </script>
+    <style>
+		
+    </style>
+</head>
+<body>
+
+	<div th:replace="includes/header :: header">...</div>
+	
+	<div id="main-content">
+		<H1>Recipes</H1>
+		<div id="dialog-form" title="Recipe">
+			<p class="validateTips"></p>
+			<form id="addEditForm" action="/recipes" th:action="@{~/recipes}" method="post">
+				<fieldset>
+					<label for="name">Name</label>
+					<input type="text" name="name" id="name" class="text ui-widget-content ui-corner-all"/>
+					<label for="description">Description</label>
+					<input type="text" name="description" id="description" class="text ui-widget-content ui-corner-all"/>
+					<label for="weight">Weight</label>
+					<input type="text" name="weight" id="weight" class="text ui-widget-content ui-corner-all"/>
+					<label for="lunch" style="display:inline;">Lunch</label>
+					<input style="display:inline;" type="checkbox" name="lunch" id="lunch"/>
+					<br/>
+					<label for="dinner" style="display:inline;">Dinner</label>
+					<input style="display:inline;" type="checkbox" name="dinner" id="dinner"/>
+					<br/><br/>
+					<div class="row">
+						<div class="select-left">
+							<label class="multiselectHeader" for="">Available Tags</label>
+							<select name="availableTags" id="multiselect" class="form-control" size="5" multiple="multiple"></select>
+						</div>						
+						<div class="select-middle">
+							<button type="button" id="multiselect_rightSelected" class="select-button" role="button"><span class="button-text">&gt;</span></button>
+							<button type="button" id="multiselect_leftSelected" class="select-button" role="button"><span class="button-text">&lt;</span></button>
+						</div>
+						<div class="select-right">
+							<label class="multiselectHeader" for="">Selected Tags</label>
+							<select name="tagIds" id="tagIds" class="form-control" size="5" multiple="multiple"></select>
+						</div>
+					</div>
+					<input type="text" name="id" id="id" class="hidden"/>
+					<input type="submit" tabindex="-1" style="position:absolute; top:-1000px"/>
+				</fieldset>
+			</form>
+		</div>
+	
+		<div class="table">
+			<div class="records-header">
+				<span class="edit delete icon"></span>
+			    <span class="headerCell dataCell">Name</span>
+			    <span class="headerCell dataCell">Description</span>
+			    <!--<span class="headerCell dataCell">Yields Leftovers</span>-->
+			    <span class="headerCell dataCell">Frequency</span>
+			    <span class="headerCell dataCell">Lunch</span>
+			    <span class="headerCell dataCell">Dinner</span>
+			    <span class="headerCell dataCell">Tags</span>
+			</div>
+			<div class="records-rows" th:each="recipe : ${allRecipes}" th:classappend="|id${recipe.id}">
+				<span class="dataCell">
+					<span class="edit icon"><a href="#" class="editLink" th:attr="data-id=${recipe.id}"><img border="0" alt="Edit" src="/images/edit.png" th:src="@{~/images/edit.png}"/></a></span>
+					<span class="delete icon"><a href="#" class="deleteLink" th:attr="data-id=${recipe.id}"><img border="0" alt="Delete" src="/images/delete.png" th:src="@{~/images/delete.png}"/></a></span>
+				</span>
+				<span class="name dataCell" th:text="${recipe.name}">Name</span>
+				<span class="description dataCell" th:text="${recipe.description}">Description</span>
+				<!--<span class="leftovers dataCell" th:text="${recipe.leftovers}">Yields Leftovers</span>-->
+				<span class="weight dataCell" th:text="${recipe.weight}">Frequency</span>
+				<span class="lunch dataCell"><input type="checkbox" th:value="${recipe.lunch}" th:checked="${recipe.lunch}" disabled="disabled"/></span>
+				<span class="dinner dataCell"><input type="checkbox" th:value="${recipe.dinner}" th:checked="${recipe.dinner}" disabled="disabled"/></span>
+				<span class="tags dataCell">
+					<span th:each="tag : ${recipe.tags}">
+						<span th:text="${tag.name}">Tag</span><br/>
+					</span>
+				</span>
+				<span class="id cell hidden" th:text="${recipe.id}">Hidden PK ID</span>
+				<span class="tagsList cell hidden" th:text="${recipe.tagsString}">Hidden Tags String</span>
+			</div>
+		</div>
+		<button id="create-record">Create New</button>
+	</div>
+
+</body>
+</html>

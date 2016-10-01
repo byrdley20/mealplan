@@ -1,0 +1,125 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Byrd Meal Plan | Tags</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW"/>
+	
+	<link rel="stylesheet" href="/css/jqueryui/1.11.3/jquery-ui.css" th:href="@{~/css/jqueryui/1.12.0/jquery-ui.min.css}"/>
+	<link rel="stylesheet" href="/css/main.css" th:href="@{~/css/main.css}"/>
+	<link rel="stylesheet" href="/css/fullcalendar.css" th:href="@{~/css/fullcalendar.css}"/>
+	<link rel="stylesheet" href="/css/jquery.qtip.min.css" th:href="@{~/css/jquery.qtip.min.css}"/>
+    
+    <script type="text/javascript" src="/js/jquery/3.0.0/jquery.min.js" th:src="@{~/js/jquery/1.11.2/jquery.min.js}"></script>
+	<script type="text/javascript" src="/js/jqueryui/1.11.4/jquery-ui.custom.min.js" th:src="@{~/js/jqueryui/1.12.0/jquery-ui.min.js}"></script>
+	<script type="text/javascript" src="/js/jquery.qtip.min.js" th:src="@{~/js/jquery.qtip.min.js}"></script>
+    
+    <script type="text/javascript" src="/js/main.js" th:src="@{~/js/main.js}"></script>
+    <script th:inline="javascript">
+    	/*<![CDATA[*/
+    	           
+		var lengthValidation = [];
+    	           
+    	$(function() {
+    		var id = $( "#id" ),
+    		name = $( "#name" ),
+    		description = $( "#description" );
+    		
+        	allFields = $( [] ).add( id ).add( name ).add( description );
+        	addUpdatePath = "/rest/tags";
+        	deletePath = "/rest/tags";
+    		
+    		createDialog(true);
+    		
+    		lengthValidation[lengthValidation.length] = createLengthValidationObject(name, "'Name'", 1, 100);
+       	});
+    	function setSelectValue(formData, element) {
+			if(element.name == 'rating'){
+				formData[element.name] = ratings[element.value];
+			} else if(element.name == 'role'){
+				formData[element.name] = element.value;
+			}
+    	}
+    	function writeCreatedRecord(savedRecord){
+    		var elementBefore;
+    		if($(".records-rows").length){
+    			elementBefore = $(".records-rows");
+    		} else {
+    			elementBefore = $(".records-header");
+    		}
+    		
+    		elementBefore.last().after( "<div class='records-rows id"+savedRecord.id+" new-row'>" +
+	    			"<span class='dataCell'>" +
+			    	"<span class='edit icon'><a href='#' class='editLink' data-id='"+savedRecord.id+"'><img border='0' alt='Edit' src='"+contextPath+"/images/edit.png'/></a></span> " +
+			    	"<span class='delete icon'><a href='#' class='deleteLink' data-id='"+savedRecord.id+"'><img border='0' alt='Delete' src='"+contextPath+"/images/delete.png'/></a></span> " +
+			    	"</span>" +
+			    	"<span class='name dataCell'>"+savedRecord.name+"</span> " +
+			    	"<span class='description dataCell'>"+savedRecord.description+"</span> " +
+			    	"<span class='id cell hidden'>"+savedRecord.id+"</span> " +
+		    	"</div>" );    		
+    	}
+    	function writeEditRecord(savedRecord){
+    		var editedRow = $(".id"+savedRecord.id);
+    		editedRow.find('.name').html(savedRecord.name);
+    		editedRow.find('.description').html(savedRecord.description);
+    		editedRow.find('.id').html(savedRecord.id);
+    		editedRow.addClass('new-row');
+    	}
+    	function populateEditForm(editLink){
+	   		var editSpan = $(editLink).closest('span.dataCell');
+    		$('#addEditForm').find('#name').val(editSpan.nextAll('span.name').first().html());
+    		$('#addEditForm').find('#description').val(editSpan.nextAll('span.description').first().html());
+    		$('#addEditForm').find('#id').val(editSpan.nextAll('span.id').first().html());
+    	}
+    	function findDeleteName(deleteLink){
+    		return $(deleteLink).closest('span.dataCell').nextAll('span.name').first().html();
+    	}
+    	
+    	//]]>
+    </script>
+    <style>
+		
+    </style>
+</head>
+<body>
+
+	<div th:replace="includes/header :: header">...</div>
+	
+	<div id="main-content">
+		<H1>Tags</H1>
+		<div id="dialog-form" title="Tag">
+			<p class="validateTips"></p>
+			<form id="addEditForm" action="/tags" th:action="@{~/tags}" method="post">
+				<fieldset>
+					<label for="name">Name</label>
+					<input type="text" name="name" id="name" class="text ui-widget-content ui-corner-all"/>
+					<label for="description">Description</label>
+					<input type="text" name="description" id="description" class="text ui-widget-content ui-corner-all"/>
+					<input type="text" name="id" id="id" class="hidden"/>
+					<input type="submit" tabindex="-1" style="position:absolute; top:-1000px"/>
+				</fieldset>
+			</form>
+		</div>
+	
+		<div class="table">
+			<div class="records-header">
+				<span class="edit delete icon"></span>
+			    <span class="headerCell dataCell">Name</span>
+			    <span class="headerCell dataCell">Description</span>
+			</div>
+			<div class="records-rows" th:each="tag : ${allTags}" th:classappend="|id${tag.id}">
+				<span class="dataCell">
+					<span class="edit icon"><a href="#" class="editLink" th:attr="data-id=${tag.id}"><img border="0" alt="Edit" src="/images/edit.png" th:src="@{~/images/edit.png}"/></a></span>
+					<span class="delete icon"><a href="#" class="deleteLink" th:attr="data-id=${tag.id}"><img border="0" alt="Delete" src="/images/delete.png" th:src="@{~/images/delete.png}"/></a></span>
+				</span>
+				<span class="name dataCell" th:text="${tag.name}">Name</span>
+				<span class="description dataCell" th:text="${tag.description}">Description</span>
+				<span class="id cell hidden" th:text="${tag.id}">Hidden PK ID</span>
+			</div>
+		</div>
+		<button id="create-record">Create New</button>
+	</div>
+
+</body>
+</html>

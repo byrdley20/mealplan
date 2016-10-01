@@ -1,0 +1,375 @@
+.header-left {
+	float: left;
+	width: 171px;
+}
+.header-right {
+	background: url("../images/header-right.png") repeat-x scroll 50% 50%;
+	margin-left: 171px;
+	height: 87px;
+	position: relative;
+}
+.header-menu {
+	position: absolute;
+	bottom: 23px;
+}
+.alert-button {
+	color: #FF0000;
+}
+.admin-admin-button {
+	position: absolute;
+	float: right;
+	right: 50px;
+	bottom: 23px;
+}
+.help-button {
+	position: absolute;
+	float: right;
+	right: -5px;
+	bottom: 23px;
+}
+.help-topic {
+	margin-top:30px;
+}
+.help-header {
+	font-size: 1.17em;
+	font-weight: bold;
+}
+.help-text {
+	margin-left:25px;
+}
+.logged-in {
+	position: absolute;
+	float: right;
+	right: 50px;
+	top: 5px;
+}
+.table-upper-caption {
+	font-size: 1.4em;
+	font-weight: bold;
+	margin-bottom:20px;
+}
+a button.header-button,
+a button.admin-button,
+button.header-button,
+.logout-button {
+	border-left: 1px solid #d3d3d3;
+	border-right: 1px solid #d3d3d3;
+	border-top: 1px solid #d3d3d3;
+	border-bottom: none;
+	color: #000000;
+	border-top-right-radius: 4px;
+	border-top-left-radius: 4px;
+	font-size: 1em;
+	font-weight: bold;
+}
+a button.header-button,
+button.header-button {
+	background: #e6e6e6 url("../css/jqueryui/1.11.3/images/ui-bg_inset-soft_95_fef1ec_1x100.png") 50% 50% repeat-x;
+}
+a button.admin-button,
+.logout-button {
+	background: #e6e6e6 url("../images/menu-button.png") 50% 50% repeat-x;
+	font-size: .8em;
+	padding-left: 3px;
+	padding-right: 3px;
+}
+a button.button-off {
+	background: #e6e6e6 url("../images/menu-button.png") 50% 50% repeat-x;
+}
+a button.button-on {
+	background: #dadada url("../css/jqueryui/1.11.3/images/ui-bg_glass_65_ffffff_1x400.png") 50% 50% repeat-x;
+}
+a button.month-button  {
+	border: 1px solid black;
+	color: #000000;
+	border-top-right-radius: 4px;
+	border-top-left-radius: 4px;
+	border-bottom-right-radius: 4px;
+	border-bottom-left-radius: 4px;
+	font-size: 1em;
+	font-weight: bold;
+}
+
+button.select-button {
+	border: 1px solid black;
+	color: #000000;
+	border-top-right-radius: 4px;
+	border-top-left-radius: 4px;
+	border-bottom-right-radius: 4px;
+	border-bottom-left-radius: 4px;
+	font-size: .6em;
+	font-weight: bold;
+	display: block;
+    margin: 5px 9px 5px 0;
+}
+
+a button.header-button:hover,
+a button.admin-button:hover,
+a button.month-button:hover,
+button.login-button:hover,
+.logout-button:hover {
+	background: #dadada url("../css/jqueryui/1.11.3/images/ui-bg_glass_65_ffffff_1x400.png") 50% 50% repeat-x;
+	cursor: pointer;
+	cursor: hand;
+}
+.header-button-hover {
+	
+}
+.header-button .button-text,
+.admin-button .button-text,
+.logout-button {
+  padding: .1em .1em;
+  display: block;
+}
+.print-button {
+	margin-left: 100px;
+}
+.login-input {
+	padding: .4em;
+	width: 200px;
+	margin-bottom: 12px;
+	font-family: Verdana,Arial,sans-serif;
+	font-size: 1em;
+	border-bottom-right-radius: 4px;
+	border-bottom-left-radius: 4px;
+	border-top-right-radius: 4px;
+	border-top-left-radius: 4px;
+	border: 1px solid #aaaaaa;
+}
+.login-label {
+	font-family: Verdana,Arial,sans-serif;
+	font-size: 1.1em;
+}
+.alert-error {
+	font-family: Verdana,Arial,sans-serif;
+	color: red;
+	margin-bottom: 10px;
+	font-weight: bold;
+}
+.log-totals {
+	font-weight: bold;
+}
+#main-content {
+	margin-left: 20px;
+	padding-bottom: 20px;
+}
+.table {
+	display: table;
+	margin-bottom: 20px;
+	margin-right: 20px;
+	border: 1px solid black;
+	border-collapse: collapse;
+	background-color: white;
+}
+.category-type {
+	font-size: 1.3em;
+	font-weight: bold;
+	width: 125px;
+	background-color: white;
+}
+.edit,
+.delete {
+    width: 20px;
+}
+.edit,
+.repair {
+	padding-right: 10px;
+}
+.editLink img,
+.deleteLink img,
+.repairLink img,
+.complyWith img {
+	width: 15px;
+	height: 15px;
+}
+.dataCell {
+    display: table-cell;
+    padding: 3px 10px;
+    border: 1px solid black;
+}
+.emptyCell {
+    display: table-cell;
+    padding: 3px 10px;
+    border: none;
+}
+.icon {
+    display: table-cell;
+}
+div.colspan>div
+{
+    width:1px;
+}
+div.colspan>div>div
+{
+    position:relative;
+    width:300px;
+}
+.cleared {
+  clear: both;
+}
+.records-header,
+.records-rows,
+.totals-rows,
+.row {
+	 display: table-row;
+}
+.records-header {
+	 background: url("jqueryui/1.11.3/images/ui-bg_highlight-soft_75_cccccc_1x100.png") repeat-x scroll 50% 50% #cccccc;
+	 font-weight: bold;
+	 border: 1px solid black;
+}
+.records-header .headerCell {
+    color: 000000;
+}
+#addEditForm,
+#printForm{
+	display:none;
+}
+body { font-size: 100%; margin: 0px; background-color:#f3f1ef; }
+label, input { display:block; }
+input.text { margin-bottom:12px; width:95%; padding: .4em; }
+#imagePath { font-size: 0.8em; font-weight: bold; }
+select { margin-bottom:12px; width:95%; padding: .4em; }
+fieldset { padding:0; border:0; margin-top:25px; }
+h1 { font-size: 1.2em; margin: .6em 0; }
+div#users-contain { width: 350px; margin: 20px 0; }
+div#users-contain table { margin: 1em 0; border-collapse: collapse; width: 100%; }
+div#users-contain table td, div#users-contain table th { border: 1px solid #eee; padding: .6em 10px; text-align: left; }
+.ui-dialog .ui-state-error { padding: .3em; }
+.validateTips { border: 1px solid transparent; padding: 0.3em; display:none; font-size:0.7em;}
+.hidden { display:none; }
+.error {
+	font-weight: bold;
+	margin-left: 171px;
+}
+.print-only {
+	display: none;
+}
+.monthName{
+	margin-bottom: 5px;
+	font-weight: bold;
+}
+.topButton{
+	margin-bottom: 20px;
+}
+.even {
+	background-color: #e6e6e6;
+}
+.dueNow {
+	background-color: #970102;
+	color: white;
+}
+.dueSoon {
+	background-color: #f9df00;
+}
+.aircraft-image {
+	width: 300px;
+}
+.new-row {
+	background: #fbf9ee url("images/ui-bg_glass_55_fbf9ee_1x400.png") 50% 50% repeat-x;
+	color: black;
+}
+.no-close .ui-dialog-titlebar-close{
+  display: none;
+}
+.print-dialog .ui-dialog-titlebar{
+	 display: none;
+}
+.print-dialog .ui-widget{
+	font-size: 1.0em;
+}
+.selector {
+	width: 75px;
+	border-bottom-right-radius: 4px;
+	border-bottom-left-radius: 4px;
+	border-top-right-radius: 4px;
+	border-top-left-radius: 4px;
+	font-family: Verdana,Arial,sans-serif;
+	font-weight: bold;
+	font-size: .9em;
+	padding: .15em;
+}
+.select-left {
+	float: left;
+	width: 170px;
+	font-size: .6em;
+}
+.select-middle {
+	float: left;
+	padding-top: 25px;
+}
+.select-right {
+	float: left;
+	width: 170px;
+	font-size: .6em;
+}
+.multiselectHeader {
+	font-size:1.3em;
+	font-weight: bold;
+}
+.location-hours {
+	margin-top: 40px;
+}
+@media print {
+	.header-left,
+	.header-right,
+	#create-record,
+	.no-print {
+		display: none;
+	}
+	.print-only {
+		display: block;
+	}
+	.dataCell {
+		padding: 1px 6px;
+		font-size: .75em;
+	}
+	.location-hours {
+		margin-top: 0px;
+	}
+	.even {
+		background-color: #e6e6e6 !important;
+    	-webkit-print-color-adjust: exact;
+	}
+}
+
+.no-title .ui-dialog-titlebar {
+    visibility: hidden;
+}
+button.day-button  {
+	border: 1px solid black;
+	color: #000000;
+	border-top-right-radius: 4px;
+	border-top-left-radius: 4px;
+	border-bottom-right-radius: 4px;
+	border-bottom-left-radius: 4px;
+	font-size: 0.65em !important;
+	font-weight: bold;
+}
+
+button.recipe-button {
+	margin-left: 70px !important;
+}
+
+select[multiple] {
+  font-size: 1.3em;
+}
+
+span.fc-title {
+	word-break: break-all;
+    white-space: normal;
+}
+
+@media print {
+	.dateTags,
+	button,
+	.no-print {
+		display: none;
+	}
+	span.fc-title {
+		font-size: 0.7em !important;
+		word-break: normal;
+    	white-space: normal;
+    	color: black;
+	}
+}
