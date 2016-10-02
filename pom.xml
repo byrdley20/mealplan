@@ -3,13 +3,13 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.meals</groupId>
-	<artifactId>mealplan</artifactId>
+	<groupId>com.mp</groupId>
+	<artifactId>mp</artifactId>
 	<version>0.0.1</version>
 	<packaging>war</packaging>
 
-	<name>mealplan</name>
-	<description>Meal Plan</description>
+	<name>mp</name>
+	<description>MP</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -106,6 +106,7 @@
 		    <artifactId>commons-collections</artifactId>
 		    <version>3.2.2</version>
 		</dependency>
+		<!--
 		<dependency>
 			<groupId>com.google.api-client</groupId>
 			<artifactId>google-api-client</artifactId>
@@ -121,6 +122,7 @@
 			<artifactId>google-api-services-calendar</artifactId>
 			<version>v3-rev206-1.22.0</version>
 		</dependency>
+		-->
 <dependency>
 	<groupId>org.springframework.boot</groupId>
 	<artifactId>spring-boot-starter-ws</artifactId>
