@@ -1,0 +1,39 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+  <head>
+    <title th:fragment="title">Login</title>
+    <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW"/>
+	<link rel="stylesheet" href="/css/jqueryui/1.11.3/jquery-ui.css" th:href="@{~/css/jqueryui/1.11.3/jquery-ui.css}"/>
+	<link rel="stylesheet" href="/css/main.css" th:href="@{~/css/main.css}"/>
+    <script type="text/javascript" src="/js/jquery/1.11.2/jquery.min.js" th:src="@{~/js/jquery/1.11.2/jquery.min.js}"></script>
+	<script type="text/javascript" src="/js/jqueryui/1.11.3/jquery-ui.min.js" th:src="@{~/js/jqueryui/1.11.3/jquery-ui.min.js}"></script>
+    <script type="text/javascript" src="/js/main.js" th:src="@{~/js/main.js}"></script>
+  </head>
+  <body>
+    <div id="main-content">
+        <form name="f" th:action="@{~/login.html}" action="login.html" method="post">               
+            <fieldset>
+                <legend class="table-upper-caption" th:if="!${param.logout}">Please Login</legend>
+                <div th:if="${param.error}" class="alert alert-error">    
+                    Invalid username and/or password.
+                </div>
+                <div th:if="${param.logout}" class="alert alert-success table-upper-caption"> 
+                    You have been logged out. 
+                </div>
+                <label for="username" class="login-label">User</label>
+                <!--<input type="text" id="j_username" name="j_username" class="login-input"/>-->
+                <input type="text" id="username" name="username" class="login-input"/>
+				
+                <label for="password" class="login-label">Password</label>
+                <input type="password" id="password" name="password" class="login-input"/>
+                <div class="form-actions">
+                    <button type="submit" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only login-button" role="button"><span class="ui-button-text">Login</span></button>
+                </div>
+            </fieldset>
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+        </form>
+    </div>
+  </body>
+</html>

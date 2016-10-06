@@ -3,14 +3,14 @@
 	width: 171px;
 }
 .header-right {
-	background: url("../images/header-right.png") repeat-x scroll 50% 50%;
-	margin-left: 171px;
-	height: 87px;
+	height: 50px;
 	position: relative;
+	padding-left: 35px;
+	border-bottom: black solid 1px;
 }
 .header-menu {
 	position: absolute;
-	bottom: 23px;
+	bottom: 0px;
 }
 .alert-button {
 	color: #FF0000;
@@ -19,7 +19,7 @@
 	position: absolute;
 	float: right;
 	right: 50px;
-	bottom: 23px;
+	bottom: 0px;
 }
 .help-button {
 	position: absolute;
@@ -64,20 +64,18 @@ button.header-button,
 }
 a button.header-button,
 button.header-button {
-	background: #e6e6e6 url("../css/jqueryui/1.11.3/images/ui-bg_inset-soft_95_fef1ec_1x100.png") 50% 50% repeat-x;
+	/*background: #e6e6e6 url("../css/jqueryui/1.11.3/images/ui-bg_inset-soft_95_fef1ec_1x100.png") 50% 50% repeat-x;*/
 }
 a button.admin-button,
 .logout-button {
-	background: #e6e6e6 url("../images/menu-button.png") 50% 50% repeat-x;
 	font-size: .8em;
 	padding-left: 3px;
 	padding-right: 3px;
 }
 a button.button-off {
-	background: #e6e6e6 url("../images/menu-button.png") 50% 50% repeat-x;
 }
 a button.button-on {
-	background: #dadada url("../css/jqueryui/1.11.3/images/ui-bg_glass_65_ffffff_1x400.png") 50% 50% repeat-x;
+	/*background: #dadada url("../css/jqueryui/1.11.3/images/ui-bg_glass_65_ffffff_1x400.png") 50% 50% repeat-x;*/
 }
 a button.month-button  {
 	border: 1px solid black;
@@ -108,7 +106,7 @@ a button.admin-button:hover,
 a button.month-button:hover,
 button.login-button:hover,
 .logout-button:hover {
-	background: #dadada url("../css/jqueryui/1.11.3/images/ui-bg_glass_65_ffffff_1x400.png") 50% 50% repeat-x;
+	/*background: #dadada url("../css/jqueryui/1.11.3/images/ui-bg_glass_65_ffffff_1x400.png") 50% 50% repeat-x;*/
 	cursor: pointer;
 	cursor: hand;
 }
@@ -214,7 +212,7 @@ div.colspan>div>div
 	 display: table-row;
 }
 .records-header {
-	 background: url("jqueryui/1.11.3/images/ui-bg_highlight-soft_75_cccccc_1x100.png") repeat-x scroll 50% 50% #cccccc;
+	 /*background: url("jqueryui/1.11.3/images/ui-bg_highlight-soft_75_cccccc_1x100.png") repeat-x scroll 50% 50% #cccccc;*/
 	 font-weight: bold;
 	 border: 1px solid black;
 }
@@ -359,6 +357,12 @@ span.fc-title {
 	word-break: break-all;
     white-space: normal;
 }
+
+#tagDialog,
+#recipeDialog { display: none; }
+#calendar { padding-top: 20px; }
+.fc-left { margin-left: 35px !important; }
+.fc-right { margin-right: 35px !important; }
 
 @media print {
 	.dateTags,

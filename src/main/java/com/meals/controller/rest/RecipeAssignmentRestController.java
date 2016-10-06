@@ -192,7 +192,7 @@ public class RecipeAssignmentRestController extends BaseRestController {
 
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	@ResponseBody
-	RecipeAssignment addRecipeAssignment(@RequestParam(value = "recipeDate") String date, @RequestParam(value = "recipe") String recipeFromTagId, @RequestParam(value = "recipeFromAll") String recipeFromAllId,
+	void addRecipeAssignment(@RequestParam(value = "recipeDate") String date, @RequestParam(value = "recipe") String recipeFromTagId, @RequestParam(value = "recipeFromAll") String recipeFromAllId,
 			@RequestParam(value = "recipeMealType") String mealTypeId) throws ParseException {
 
 		String recipeId = (StringUtils.isBlank(recipeFromTagId) || recipeFromTagId.equals("-1")) ? recipeFromAllId : recipeFromTagId;
@@ -206,7 +206,6 @@ public class RecipeAssignmentRestController extends BaseRestController {
 
 		RecipeAssignment savedRecipeAssignment = this.recipeAssignmentRepository.save(recipeAssignment);
 		saveRecipeHistory(savedRecipeAssignment);
-		return savedRecipeAssignment;
 	}
 
 	@RequestMapping(value = "/{id}/update", method = RequestMethod.POST)

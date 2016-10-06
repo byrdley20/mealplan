@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+	  xmlns:th="http://www.thymeleaf.org" 
+	  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
   <head>
   	<meta th:fragment="head">
 	  	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
@@ -24,9 +24,9 @@
 	    </script>
      	<div class="header-right">
      		<div class="header-menu">
-     			<a th:href="@{~/dashboard.html}" href="/" sec:authorize="hasRole('ROLE_ADMIN')"><button type="button" id="calendar-button" class="header-button" role="button"><span class="button-text">Calendar</span></button></a>
-				<a th:href="@{~/recipes.html}" href="/recipes.html" sec:authorize="hasRole('ROLE_ADMIN')"><button type="button" id="recipes-button" class="header-button" role="button"><span class="button-text">Recipes</span></button></a>
-				<a th:href="@{~/tags.html}" href="/tags.html" sec:authorize="hasRole('ROLE_ADMIN')"><button type="button" id="tags-button" class="header-button" role="button"><span class="button-text">Tags</span></button></a>
+     			<a th:href="@{~/dashboard.html}" href="/"><button type="button" id="calendar-button" class="header-button" role="button"><span class="button-text">Calendar</span></button></a>
+				<a th:href="@{~/recipes.html}" href="/recipes.html"><button type="button" id="recipes-button" class="header-button" role="button"><span class="button-text">Recipes</span></button></a>
+				<a th:href="@{~/tags.html}" href="/tags.html"><button type="button" id="tags-button" class="header-button" role="button"><span class="button-text">Tags</span></button></a>
      		</div>
 			<div class="admin-admin-button" th:if="${#authentication} ? ${#authorization.expression('!isAuthenticated()')} : ${true}">
      			<a th:href="@{~/login.html}" href="/login.html"><button type="button" id="admin-button" class="admin-button" role="button"><span class="button-text">Login</span></button></a>
@@ -40,38 +40,6 @@
 				</form>
       		</div>
 		</div>
-		<div id="dialog" style="display:none;" title="Inactivity Detected" th:if="${#authentication} ? ${#authorization.expression('isAuthenticated()')} : ${false}">
-		  <p>
-		    You have been idle for 5 minutes and will be logged out in 5 seconds.
-		  </p>
-		</div>
-		<script type="text/javascript" th:src="@{~/js/idle-timer.1.0.1.min.js}" src="/js/idle-timer.1.0.1.min.js" th:if="${#authentication} ? ${#authorization.expression('isAuthenticated()')} : ${false}"></script>
-		<script type="text/javascript" th:if="${#authentication} ? ${#authorization.expression('isAuthenticated()')} : ${false}">
-			var idleDialog;
-			$(function() {
-				idleDialog = $( "#dialog" ).dialog({
-					  dialogClass: "no-close",
-				      modal: true,
-				      autoOpen: false
-				});				
-			    // binds to document - shorthand
-			    $.idleTimer({
-			        timeout:300000, //5 minutes 
-			        idle:true
-			    });
-			    $( document ).on( "idle.idleTimer", function(event, elem, obj){
-			        // function you want to fire when the user goes idle
-			        idleDialog.show();
-			    	idleDialog.dialog( "open" );
-			    	window.setTimeout(function(){
-				        $("#logout-button").click();
-				    }, 5000);
-				});
-			    $("#logout-button").click(function() {
-			    	$("#logout-form").submit();
-			    });
-			});
-		</script>
     </div>
   </body>
 </html>
