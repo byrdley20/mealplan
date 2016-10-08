@@ -3,7 +3,7 @@
 	width: 171px;
 }
 .header-right {
-	height: 50px;
+	height: 40px;
 	position: relative;
 	padding-left: 35px;
 	border-bottom: black solid 1px;
@@ -42,6 +42,7 @@
 	float: right;
 	right: 50px;
 	top: 5px;
+	font-size: 0.7em;
 }
 .table-upper-caption {
 	font-size: 1.4em;
@@ -59,7 +60,7 @@ button.header-button,
 	color: #000000;
 	border-top-right-radius: 4px;
 	border-top-left-radius: 4px;
-	font-size: 1em;
+	font-size: 0.7em;
 	font-weight: bold;
 }
 a button.header-button,
@@ -345,12 +346,21 @@ button.day-button  {
 	font-weight: bold;
 }
 
+div.dateTags img {
+	width: 23px;
+	height: 23px;
+}
+
 button.recipe-button {
-	margin-left: 70px !important;
+	margin-left: 65px !important;
 }
 
 select[multiple] {
   font-size: 1.3em;
+}
+
+.fc-event {
+	font-size: 0.7em !important;
 }
 
 span.fc-title {
@@ -358,9 +368,41 @@ span.fc-title {
     white-space: normal;
 }
 
+.fc-myCustomButton-button,
+.fc-today-button,
+.fc-prev-button,
+.fc-next-button {
+	font-size: 0.7em !important;
+}
+
+.fc-center {
+	font-size: 1em !important;
+}
+
+.fc-toolbar {
+	margin-bottom: .2em !important;
+}
+
+.fc-day-header {
+	font-size: 0.7em !important;
+}
+
+.recipe-button .button-text {
+	font-size: 1.4em !important;
+}
+
+.recipe-button {
+	padding: 1px !important;
+	height: 2.5em !important;
+}
+
+.dateTags {
+	font-size: 0.7em;
+}
+
 #tagDialog,
 #recipeDialog { display: none; }
-#calendar { padding-top: 20px; }
+#calendar { padding-top: 10px; }
 .fc-left { margin-left: 35px !important; }
 .fc-right { margin-right: 35px !important; }
 

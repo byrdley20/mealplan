@@ -78,7 +78,7 @@
 			        editable: true,
 			        eventRender: function(event, element) {
 			            var titleElement = $(element).find("span.fc-title");
-			            titleElement.html("<span class='deleteIcon' style='background-color:red; display:none; font-size:11px;' data-title='"+event.title+"' data-id='"+event.recipeAssignmentId+"' data-date='"+event.start.format()+"'>DELETE</span> "+titleElement.html());
+			            titleElement.html("<span class='deleteIcon' style='background-color:red; display:none; font-size:.8em;' data-title='"+event.title+"' data-id='"+event.recipeAssignmentId+"' data-date='"+event.start.format()+"'>DELETE</span> "+titleElement.html());
 			        },
 			        dayRender: function(date, cell) {
 			        	var tags = "<div class='dateTags' data-date="+date.format()+" style='float:left'></div>";
