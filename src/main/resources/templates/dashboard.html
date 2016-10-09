@@ -78,7 +78,7 @@
 			        editable: true,
 			        eventRender: function(event, element) {
 			            var titleElement = $(element).find("span.fc-title");
-			            titleElement.html("<span class='deleteIcon' style='background-color:red; display:none; font-size:.8em;' data-title='"+event.title+"' data-id='"+event.recipeAssignmentId+"' data-date='"+event.start.format()+"'>DELETE</span> "+titleElement.html());
+			            titleElement.html("<span class='deleteIcon' style='background-color:red; display:none; font-size:.7em;' data-title='"+event.title+"' data-id='"+event.recipeAssignmentId+"' data-date='"+event.start.format()+"'>DELETE</span> "+titleElement.html());
 			        },
 			        dayRender: function(date, cell) {
 			        	var tags = "<div class='dateTags' data-date="+date.format()+" style='float:left'></div>";
@@ -98,7 +98,7 @@
 			        },
 			        fixedWeekCount: false,
 			        height: function() {
-			        	return $(window).height() - $("#header").height() - 40;
+			        	return $(window).height() - $("#header").height() - 10;
 			        },
 			        customButtons: {
 			            myCustomButton: {
@@ -166,12 +166,12 @@
 										lunchTagText += "<br\>";
 									}
 				            		lunchTagText += "<button type=&quot;button&quot; class=&quot;tag-button day-button&quot; role=&quot;button&quot; data-date="+thisDate+" data-mealType=&quot;Lunch&quot;><span class=&quot;button-text&quot;>Add Lunch Tag</span></button>";
-									tagText += "<span class='lunchTags' title='"+lunchTagText+"'><img src='"+contextPath+"/images/lunch.png'/>"+lunchDateTagCount+"</span> ";
+									tagText += "<span class='lunchTags' title='"+lunchTagText+"'><img src='"+contextPath+"/images/lunch2.png'/>"+lunchDateTagCount+"</span> ";
 									if(dinnerTagText.length > 0) {
 										dinnerTagText += "<br\>";
 									}
 									dinnerTagText += "<button type=&quot;button&quot; class=&quot;tag-button day-button&quot; role=&quot;button&quot; data-date="+thisDate+" data-mealType=&quot;Dinner&quot;><span class=&quot;button-text&quot;>Add Dinner Tag</span></button>";
-									tagText += "<span class='dinnerTags' title='"+dinnerTagText+"'><img src='"+contextPath+"/images/dinner.png'/>"+dinnerDateTagCount+"</span>" ;
+									tagText += "<span class='dinnerTags' title='"+dinnerTagText+"'><img src='"+contextPath+"/images/dinner2.png'/>"+dinnerDateTagCount+"</span>" ;
 									tagText += addRecipeButton;
 									$(this).html(tagText);
 				            	});
