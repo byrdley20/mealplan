@@ -32,6 +32,10 @@ public class Recipe extends BaseDomain {
 	@Expose
 	private List<RecipeTag> recipeTags;
 
+	@OneToMany(mappedBy = "recipe")
+	@Expose
+	private List<RecipeIngredient> recipeIngredients;
+
 	@Transient
 	@Expose
 	private String tagIds;
@@ -87,5 +91,13 @@ public class Recipe extends BaseDomain {
 
 	public void setTagIds(String tagIds) {
 		this.tagIds = tagIds;
+	}
+
+	public List<RecipeIngredient> getRecipeIngredients() {
+		return recipeIngredients;
+	}
+
+	public void setRecipeIngredients(List<RecipeIngredient> recipeIngredients) {
+		this.recipeIngredients = recipeIngredients;
 	}
 }

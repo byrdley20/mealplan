@@ -26,6 +26,7 @@
      		<div class="header-menu">
      			<a th:href="@{~/dashboard.html}" href="/"><button type="button" id="calendar-button" class="header-button" role="button"><span class="button-text">Calendar</span></button></a>
 				<a th:href="@{~/recipes.html}" href="/recipes.html"><button type="button" id="recipes-button" class="header-button" role="button"><span class="button-text">Recipes</span></button></a>
+				<a th:href="@{~/ingredients.html}" href="/ingredients.html"><button type="button" id="ingredients-button" class="header-button" role="button"><span class="button-text">Ingredients</span></button></a>
 				<a th:href="@{~/tags.html}" href="/tags.html"><button type="button" id="tags-button" class="header-button" role="button"><span class="button-text">Tags</span></button></a>
      		</div>
 			<div class="admin-admin-button" th:if="${#authentication} ? ${#authorization.expression('!isAuthenticated()')} : ${true}">

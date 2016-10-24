@@ -26,6 +26,10 @@ public class RecipeDTO implements Comparable<RecipeDTO> {
 	private List<TagDTO> tags;
 	@Expose
 	private String tagIds;
+	@Expose
+	private List<IngredientDTO> ingredients;
+	@Expose
+	private List<String> amounts;
 
 	public RecipeDTO() {
 	}
@@ -35,7 +39,7 @@ public class RecipeDTO implements Comparable<RecipeDTO> {
 		this.name = name;
 	}
 
-	public RecipeDTO(Long id, String name, boolean leftovers, String description, int weight, boolean lunch, boolean dinner, List<TagDTO> tags) {
+	public RecipeDTO(Long id, String name, boolean leftovers, String description, int weight, boolean lunch, boolean dinner, List<TagDTO> tags, List<IngredientDTO> ingredients) {
 		this.id = id;
 		this.name = name;
 		this.leftovers = leftovers;
@@ -44,6 +48,7 @@ public class RecipeDTO implements Comparable<RecipeDTO> {
 		this.lunch = lunch;
 		this.dinner = dinner;
 		this.tags = tags;
+		this.ingredients = ingredients;
 	}
 
 	@Override
@@ -133,5 +138,21 @@ public class RecipeDTO implements Comparable<RecipeDTO> {
 
 	public void setTagIds(String tagIds) {
 		this.tagIds = tagIds;
+	}
+
+	public List<IngredientDTO> getIngredients() {
+		return ingredients;
+	}
+
+	public void setIngredients(List<IngredientDTO> ingredients) {
+		this.ingredients = ingredients;
+	}
+
+	public List<String> getAmounts() {
+		return amounts;
+	}
+
+	public void setAmounts(List<String> amounts) {
+		this.amounts = amounts;
 	}
 }

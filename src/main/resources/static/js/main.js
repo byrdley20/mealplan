@@ -1,4 +1,4 @@
-var dialog, allFields, form, tips, addUpdatePath, deletePath, dialogWidth;
+var dialog, allFields, form, tips, addUpdatePath, deletePath, dialogWidth, fieldsStartsWith;
 
 dialogWidth=350;
 
@@ -21,6 +21,9 @@ function createDialog(writeUpdate){
     	buttons : buttonsOpts,
 		close: function() {
 			allFields.removeClass( "ui-state-error" );
+			if (typeof closeDialog == 'function') {
+				closeDialog();
+			}
 		}
 	});
 }
@@ -174,7 +177,28 @@ function populateFormData() {
 				formData[shortName] = false;
 			}
 		} else {
-			formData[shortName] = v.value;
+			var thisValue = v.value;
+			var hiddenId = v.dataset.hiddenId;
+			var isArray = v.dataset.array;
+			if(hiddenId){
+				thisValue = $("#"+hiddenId).val();
+			}
+			
+			var currentValue = formData[shortName];
+			if(currentValue) {
+				if(typeof currentValue == "object") { // if it's already an array object, then just add to it
+					currentValue.push(thisValue);
+					formData[shortName] = currentValue;
+				} else { // otherwise, create an array with the old and new values
+					formData[shortName] = [currentValue, thisValue];
+				}
+			} else {
+				if(isArray) {
+					formData[shortName] = [thisValue];
+				} else {
+					formData[shortName] = thisValue;
+				}
+			}
 		}
 	});
 	if (typeof setExtraValues == 'function') { 

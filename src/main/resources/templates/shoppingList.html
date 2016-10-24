@@ -1,0 +1,93 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Byrd Meal Plan | Shopping List</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW"/>
+	
+	<link rel="stylesheet" href="/css/jqueryui/1.11.3/jquery-ui.css" th:href="@{~/css/jqueryui/1.12.0/jquery-ui.min.css}"/>
+	<link rel="stylesheet" href="/css/main.css" th:href="@{~/css/main.css}"/>
+	<link rel="stylesheet" href="/css/fullcalendar.css" th:href="@{~/css/fullcalendar.css}"/>
+	<link rel="stylesheet" href="/css/jquery.qtip.min.css" th:href="@{~/css/jquery.qtip.min.css}"/>
+    
+    <script type="text/javascript" src="/js/jquery/3.0.0/jquery.min.js" th:src="@{~/js/jquery/1.11.2/jquery.min.js}"></script>
+	<script type="text/javascript" src="/js/jqueryui/1.11.4/jquery-ui.custom.min.js" th:src="@{~/js/jqueryui/1.12.0/jquery-ui.min.js}"></script>
+	<script type="text/javascript" src="/js/jquery.qtip.min.js" th:src="@{~/js/jquery.qtip.min.js}"></script>
+    
+    <script type="text/javascript" src="/js/main.js" th:src="@{~/js/main.js}"></script>
+    <script th:inline="javascript">
+    	/*<![CDATA[*/
+
+    	//]]>
+    </script>
+    <style>
+    /*
+		.dataCell {
+			border: none;
+		}
+		.headerCell,
+		.records-rows {
+			border: 1px solid black;
+		}
+		.container{
+		    display: flex;
+		}
+		.fixed{
+		    width: 200px;
+		}
+		.flex-item{
+		    flex-grow: 1;
+		}
+		*/)
+    </style>
+</head>
+<body>
+
+	<div th:replace="includes/header :: header">...</div>
+	
+	<div id="main-content">
+		<H1>Shopping List</H1>
+		<table class="shoppingListMasterTable">
+			<tr>
+				<th:block th:each="ingredientTypeEntry : ${shoppingLists}">
+					<td class="shoppingListTableCell">
+						<table class="shoppingListTable">
+							<tr>
+								<td colspan="2" class="shoppingListCell" th:text="${ingredientTypeEntry.key}">Ingredient Type Group</td>
+							</tr>
+							<tr>
+								<td>
+									<table>
+										<tr>
+											<td class="shoppingListSubTitle">By Date</td>
+										</tr>
+										<th:block th:each="shoppingItem : ${ingredientTypeEntry.value.get('day')}" th:with="amount=(${shoppingItem.ingredient.amount} ? ${shoppingItem.ingredient.amount} + ' - ':'')">
+											<tr>
+												<td th:text="|${amount} ${shoppingItem.ingredient.name} (${shoppingItem.day})|">Shopping Item</td>
+											</tr>
+										</th:block>
+									</table>
+								</td>
+								<td>
+									<table>
+										<tr>
+											<td class="shoppingListSubTitle">By Name </td>
+										</tr>
+										<th:block th:each="shoppingItem : ${ingredientTypeEntry.value.get('name')}" th:with="amount=(${shoppingItem.ingredient.amount} ? ${shoppingItem.ingredient.amount} + ' - ':'')">
+											<tr>
+												<td th:text="|${amount} ${shoppingItem.ingredient.name} (${shoppingItem.day})|">Shopping Item</td>
+											</tr>
+										</th:block>
+									</table>
+								</td>
+							</tr>
+						</table>
+					</td>
+				</th:block>
+			</tr>
+		</table>
+	</div>
+
+</body>
+</html>

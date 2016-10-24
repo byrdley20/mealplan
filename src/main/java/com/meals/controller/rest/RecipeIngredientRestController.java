@@ -1,6 +1,7 @@
 package com.meals.controller.rest;
 
 import java.util.Collection;
+import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.meals.domain.RecipeIngredient;
+import com.meals.dto.IngredientDTO;
 import com.meals.repository.RecipeIngredientRepository;
 
 @RestController
@@ -35,5 +37,11 @@ public class RecipeIngredientRestController extends BaseRestController {
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	void delete(@PathVariable Long id) {
 		this.recipeIngredientRepository.delete(id);
+	}
+
+	@RequestMapping(value = "/{recipeId}", method = RequestMethod.GET)
+	@ResponseBody
+	List<IngredientDTO> getIngredients(@PathVariable Long recipeId) {
+		return convertToIngredientDTOs(recipeIngredientRepository.findByRecipeId(recipeId));
 	}
 }

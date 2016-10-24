@@ -22,6 +22,8 @@
     	          
 		dialogWidth=440;
     	           
+		var allIngredients = /*[[${allIngredients}]]*/;
+		
 		var tags = {};
 		var allTags = {};
     	           
@@ -44,7 +46,11 @@
     		dinner = $( "#dinner" ),
         	tagIds = $( "#tagIds" );
     		
-        	allFields = $( [] ).add( id ).add( name ).add( description ).add( weight ).add( lunch ).add( dinner ).add( tagIds );
+    		amounts = $( ".amount" );
+    		ingredients = $( ".ingredient" );
+    		
+        	allFields = $( [] ).add( id ).add( name ).add( description ).add( weight ).add( lunch ).add( dinner ).add( tagIds ).add( amounts ).add( ingredients );
+        	fieldsStartsWith = $( [] ).add( amounts ).add( ingredients );
         	addUpdatePath = "/rest/recipes";
         	deletePath = "/rest/recipes";
     		
@@ -56,7 +62,185 @@
         		submitAllLeft: false,
         		right: '#tagIds'
         	});
-    		
+        	
+        	$( "#ingredient_1" ).autocomplete({
+       	      source: allIngredients,
+       	   	  select: function (event, ui) {
+              		$("#ingredient_1").val(ui.item.label); // display the selected text
+              		$("#ingredient_1_id").val(ui.item.value); // save selected id to hidden input
+             		return false;
+       	   	  }
+       	    });
+        	$( "#ingredient_2" ).autocomplete({
+         	      source: allIngredients,
+         	   	  select: function (event, ui) {
+                		$("#ingredient_2").val(ui.item.label); // display the selected text
+                		$("#ingredient_2_id").val(ui.item.value); // save selected id to hidden input
+               		return false;
+         	   	  }
+         	    });
+        	$( "#ingredient_3" ).autocomplete({
+         	      source: allIngredients,
+         	   	  select: function (event, ui) {
+                		$("#ingredient_3").val(ui.item.label); // display the selected text
+                		$("#ingredient_3_id").val(ui.item.value); // save selected id to hidden input
+               		return false;
+         	   	  }
+         	    });
+        	$( "#ingredient_4" ).autocomplete({
+         	      source: allIngredients,
+         	   	  select: function (event, ui) {
+                		$("#ingredient_4").val(ui.item.label); // display the selected text
+                		$("#ingredient_4_id").val(ui.item.value); // save selected id to hidden input
+               		return false;
+         	   	  }
+         	    });
+        	$( "#ingredient_5" ).autocomplete({
+         	      source: allIngredients,
+         	   	  select: function (event, ui) {
+                		$("#ingredient_5").val(ui.item.label); // display the selected text
+                		$("#ingredient_5_id").val(ui.item.value); // save selected id to hidden input
+               		return false;
+         	   	  }
+         	    });
+        	$( "#ingredient_6" ).autocomplete({
+         	      source: allIngredients,
+         	   	  select: function (event, ui) {
+                		$("#ingredient_6").val(ui.item.label); // display the selected text
+                		$("#ingredient_6_id").val(ui.item.value); // save selected id to hidden input
+               		return false;
+         	   	  }
+         	    });
+        	$( "#ingredient_7" ).autocomplete({
+         	      source: allIngredients,
+         	   	  select: function (event, ui) {
+                		$("#ingredient_7").val(ui.item.label); // display the selected text
+                		$("#ingredient_7_id").val(ui.item.value); // save selected id to hidden input
+               		return false;
+         	   	  }
+         	    });
+        	$( "#ingredient_8" ).autocomplete({
+         	      source: allIngredients,
+         	   	  select: function (event, ui) {
+                		$("#ingredient_8").val(ui.item.label); // display the selected text
+                		$("#ingredient_8_id").val(ui.item.value); // save selected id to hidden input
+               		return false;
+         	   	  }
+         	    });
+        	$( "#ingredient_9" ).autocomplete({
+         	      source: allIngredients,
+         	   	  select: function (event, ui) {
+                		$("#ingredient_9").val(ui.item.label); // display the selected text
+                		$("#ingredient_9_id").val(ui.item.value); // save selected id to hidden input
+               		return false;
+         	   	  }
+         	    });
+        	$( "#ingredient_10" ).autocomplete({
+         	      source: allIngredients,
+         	   	  select: function (event, ui) {
+                		$("#ingredient_10").val(ui.item.label); // display the selected text
+                		$("#ingredient_10_id").val(ui.item.value); // save selected id to hidden input
+               		return false;
+         	   	  }
+         	    });
+        	$( "#ingredient_11" ).autocomplete({
+         	      source: allIngredients,
+         	   	  select: function (event, ui) {
+                		$("#ingredient_11").val(ui.item.label); // display the selected text
+                		$("#ingredient_11_id").val(ui.item.value); // save selected id to hidden input
+               		return false;
+         	   	  }
+         	    });
+        	$( "#ingredient_12" ).autocomplete({
+         	      source: allIngredients,
+         	   	  select: function (event, ui) {
+                		$("#ingredient_12").val(ui.item.label); // display the selected text
+                		$("#ingredient_12_id").val(ui.item.value); // save selected id to hidden input
+               		return false;
+         	   	  }
+         	    });
+        	$( "#ingredient_13" ).autocomplete({
+         	      source: allIngredients,
+         	   	  select: function (event, ui) {
+                		$("#ingredient_13").val(ui.item.label); // display the selected text
+                		$("#ingredient_13_id").val(ui.item.value); // save selected id to hidden input
+               		return false;
+         	   	  }
+         	    });
+        	$( "#ingredient_14" ).autocomplete({
+         	      source: allIngredients,
+         	   	  select: function (event, ui) {
+                		$("#ingredient_14").val(ui.item.label); // display the selected text
+                		$("#ingredient_14_id").val(ui.item.value); // save selected id to hidden input
+               		return false;
+         	   	  }
+         	    });
+        	$( "#ingredient_15" ).autocomplete({
+         	      source: allIngredients,
+         	   	  select: function (event, ui) {
+                		$("#ingredient_15").val(ui.item.label); // display the selected text
+                		$("#ingredient_15_id").val(ui.item.value); // save selected id to hidden input
+               		return false;
+         	   	  }
+         	    });
+        	$( "#ingredient_16" ).autocomplete({
+         	      source: allIngredients,
+         	   	  select: function (event, ui) {
+                		$("#ingredient_16").val(ui.item.label); // display the selected text
+                		$("#ingredient_16_id").val(ui.item.value); // save selected id to hidden input
+               		return false;
+         	   	  }
+         	    });
+        	$( "#ingredient_17" ).autocomplete({
+         	      source: allIngredients,
+         	   	  select: function (event, ui) {
+                		$("#ingredient_17").val(ui.item.label); // display the selected text
+                		$("#ingredient_17_id").val(ui.item.value); // save selected id to hidden input
+               		return false;
+         	   	  }
+         	    });
+        	$( "#ingredient_18" ).autocomplete({
+         	      source: allIngredients,
+         	   	  select: function (event, ui) {
+                		$("#ingredient_18").val(ui.item.label); // display the selected text
+                		$("#ingredient_18_id").val(ui.item.value); // save selected id to hidden input
+               		return false;
+         	   	  }
+         	    });
+        	$( "#ingredient_19" ).autocomplete({
+         	      source: allIngredients,
+         	   	  select: function (event, ui) {
+                		$("#ingredient_19").val(ui.item.label); // display the selected text
+                		$("#ingredient_19_id").val(ui.item.value); // save selected id to hidden input
+               		return false;
+         	   	  }
+         	    });
+        	$( "#ingredient_20" ).autocomplete({
+         	      source: allIngredients,
+         	   	  select: function (event, ui) {
+                		$("#ingredient_20").val(ui.item.label); // display the selected text
+                		$("#ingredient_20_id").val(ui.item.value); // save selected id to hidden input
+               		return false;
+         	   	  }
+         	    });
+    	
+        	$("#add-more-ingredients").click(function(){
+        		if($("#hidden-ingredients-group-1").is(':hidden')) {
+	        		$("#hidden-ingredients-group-1").toggle();
+        		} else if($("#hidden-ingredients-group-2").is(':hidden')) {
+	        		$("#hidden-ingredients-group-2").toggle();
+        		} else if($("#hidden-ingredients-group-3").is(':hidden')) {
+	        		$("#hidden-ingredients-group-3").toggle();
+        		} else if($("#hidden-ingredients-group-4").is(':hidden')) {
+	        		$("#hidden-ingredients-group-4").toggle();
+        		} else if($("#hidden-ingredients-group-5").is(':hidden')) {
+	        		$("#hidden-ingredients-group-5").toggle();
+        		} else if($("#hidden-ingredients-group-6").is(':hidden')) {
+	        		$("#hidden-ingredients-group-6").toggle();
+	        		$("#add-more-ingredients").hide();
+        		}
+        		return false;
+        	});
        	});
     	function setSelectValue(formData, element) {
     		if (element.name == 'tagIds') {
@@ -85,7 +269,17 @@
 	    		});
 	    	}
     		
-    		elementBefore.last().after( "<div class='records-rows id"+savedRecord.id+" new-row'>" +
+    		var ingredientsText = "";
+    		if(savedRecord.ingredients != null) {
+	    		$.each(savedRecord.ingredients, function(key, ingredient) {
+	    			if(ingredient.amount) {
+	    				ingredientsText += "<span>"+ingredient.amount+" - </span>";
+	    			}
+	    			ingredientsText += "<span>"+ingredient.name+"</span><br>";
+	    		});
+	    	}
+    		
+    		text = "<div class='records-rows id"+savedRecord.id+" new-row'>" +
 	    			"<span class='dataCell'>" +
 			    	"<span class='edit icon'><a href='#' class='editLink' data-id='"+savedRecord.id+"'><img border='0' alt='Edit' src='"+contextPath+"/images/edit.png'/></a></span> " +
 			    	"<span class='delete icon'><a href='#' class='deleteLink' data-id='"+savedRecord.id+"'><img border='0' alt='Delete' src='"+contextPath+"/images/delete.png'/></a></span> " +
@@ -96,9 +290,23 @@
 			    	"<span class='lunch dataCell'><input type='checkbox' "+getNewCheckboxValue(savedRecord.lunch)+" disabled='disabled'/></span> " +
 			    	"<span class='dinner dataCell'><input type='checkbox' "+getNewCheckboxValue(savedRecord.dinner)+" disabled='disabled'/></span> " +
 			    	"<span class='tags dataCell' style='vertical-align:bottom;'>"+tagsText+"</span> " +
+			    	"<span class='ingredients dataCell' style='vertical-align:bottom;'>"+ingredientsText+"</span> " +
 			    	"<span class='id cell hidden'>"+savedRecord.id+"</span> " +
-			    	"<span class='tagsList cell hidden'>"+savedRecord.tagsString+"</span> " +
-		    	"</div>" );   
+			    	"<span class='tagsList cell hidden'>"+savedRecord.tagsString+"</span> ";
+		    
+	    	if(savedRecord.ingredients != null) {
+	    		$.each(savedRecord.ingredients, function(key, ingredient) {
+	    			if(ingredient.amount) {
+	    				text += "<span class='amount_"+(key+1)+" cell hidden'>"+ingredient.amount+"</span>";
+	    			}
+	    			text += "<span class='ingredient_"+(key+1)+" cell hidden'>"+ingredient.name+"</span>";
+	    			text += "<span class='ingredient_"+(key+1)+"_id cell hidden'>"+ingredient.id+"</span>";
+	    		});
+	    	}
+			    	
+			text +=	"</div>";
+    		
+    		elementBefore.last().after( text );
     	}
     	function writeEditRecord(savedRecord){
     		var tagsText = "";
@@ -118,6 +326,27 @@
 
     		editedRow.find('.tagsList').html(savedRecord.tagsString);
     		editedRow.find('.id').html(savedRecord.id);
+    		
+    		editedRow.find('.ingredients').empty();
+    		editedRow.find("span[class*='amount_']").remove();
+    		editedRow.find("span[class*='ingredient_']").remove();
+
+    		var ingredientsText="";
+    		var hiddenIngredientsText="";
+	    	if(savedRecord.ingredients != null) {
+	    		$.each(savedRecord.ingredients, function(key, ingredient) {
+	    			if(ingredient.amount) {
+	    				ingredientsText += "<span>"+ingredient.amount+" - </span>";
+	    				hiddenIngredientsText += "<span class='amount_"+(key+1)+" cell hidden'>"+ingredient.amount+"</span>";
+	    			}
+	    			ingredientsText += "<span>"+ingredient.name+"</span><br>";
+	    			hiddenIngredientsText += "<span class='ingredient_"+(key+1)+" cell hidden'>"+ingredient.name+"</span>";
+	    			hiddenIngredientsText += "<span class='ingredient_"+(key+1)+"_id cell hidden'>"+ingredient.id+"</span>";
+	    		});
+	    	}
+	    	editedRow.find('.ingredients').html(ingredientsText);
+	    	editedRow.find('.id').after(hiddenIngredientsText);
+    		
     		editedRow.addClass('new-row');
     	}
     	function populateCreateForm() {
@@ -150,6 +379,69 @@
         		$('#addEditForm').find('#dinner').prop('checked', true);	
     		}
     		
+    		$('#addEditForm').find('#amount_1').val(editSpan.nextAll('span.amount_1').first().html());
+    		$('#addEditForm').find('#amount_2').val(editSpan.nextAll('span.amount_2').first().html());
+    		$('#addEditForm').find('#amount_3').val(editSpan.nextAll('span.amount_3').first().html());
+    		$('#addEditForm').find('#amount_4').val(editSpan.nextAll('span.amount_4').first().html());
+    		$('#addEditForm').find('#amount_5').val(editSpan.nextAll('span.amount_5').first().html());
+    		$('#addEditForm').find('#amount_6').val(editSpan.nextAll('span.amount_6').first().html());
+    		$('#addEditForm').find('#amount_7').val(editSpan.nextAll('span.amount_7').first().html());
+    		$('#addEditForm').find('#amount_8').val(editSpan.nextAll('span.amount_8').first().html());
+    		$('#addEditForm').find('#amount_9').val(editSpan.nextAll('span.amount_9').first().html());
+    		$('#addEditForm').find('#amount_10').val(editSpan.nextAll('span.amount_10').first().html());
+    		$('#addEditForm').find('#amount_11').val(editSpan.nextAll('span.amount_11').first().html());
+    		$('#addEditForm').find('#amount_12').val(editSpan.nextAll('span.amount_12').first().html());
+    		$('#addEditForm').find('#amount_13').val(editSpan.nextAll('span.amount_13').first().html());
+    		$('#addEditForm').find('#amount_14').val(editSpan.nextAll('span.amount_14').first().html());
+    		$('#addEditForm').find('#amount_15').val(editSpan.nextAll('span.amount_15').first().html());
+    		$('#addEditForm').find('#amount_16').val(editSpan.nextAll('span.amount_16').first().html());
+    		$('#addEditForm').find('#amount_17').val(editSpan.nextAll('span.amount_17').first().html());
+    		$('#addEditForm').find('#amount_18').val(editSpan.nextAll('span.amount_18').first().html());
+    		$('#addEditForm').find('#amount_19').val(editSpan.nextAll('span.amount_19').first().html());
+    		$('#addEditForm').find('#amount_20').val(editSpan.nextAll('span.amount_20').first().html());
+    		
+    		$('#addEditForm').find('#ingredient_1').val(editSpan.nextAll('span.ingredient_1').first().html());
+    		$('#addEditForm').find('#ingredient_2').val(editSpan.nextAll('span.ingredient_2').first().html());
+    		$('#addEditForm').find('#ingredient_3').val(editSpan.nextAll('span.ingredient_3').first().html());
+    		$('#addEditForm').find('#ingredient_4').val(editSpan.nextAll('span.ingredient_4').first().html());
+    		$('#addEditForm').find('#ingredient_5').val(editSpan.nextAll('span.ingredient_5').first().html());
+    		$('#addEditForm').find('#ingredient_6').val(editSpan.nextAll('span.ingredient_6').first().html());
+    		$('#addEditForm').find('#ingredient_7').val(editSpan.nextAll('span.ingredient_7').first().html());
+    		$('#addEditForm').find('#ingredient_8').val(editSpan.nextAll('span.ingredient_8').first().html());
+    		$('#addEditForm').find('#ingredient_9').val(editSpan.nextAll('span.ingredient_9').first().html());
+    		$('#addEditForm').find('#ingredient_10').val(editSpan.nextAll('span.ingredient_10').first().html());
+    		$('#addEditForm').find('#ingredient_11').val(editSpan.nextAll('span.ingredient_11').first().html());
+    		$('#addEditForm').find('#ingredient_12').val(editSpan.nextAll('span.ingredient_12').first().html());
+    		$('#addEditForm').find('#ingredient_13').val(editSpan.nextAll('span.ingredient_13').first().html());
+    		$('#addEditForm').find('#ingredient_14').val(editSpan.nextAll('span.ingredient_14').first().html());
+    		$('#addEditForm').find('#ingredient_15').val(editSpan.nextAll('span.ingredient_15').first().html());
+    		$('#addEditForm').find('#ingredient_16').val(editSpan.nextAll('span.ingredient_16').first().html());
+    		$('#addEditForm').find('#ingredient_17').val(editSpan.nextAll('span.ingredient_17').first().html());
+    		$('#addEditForm').find('#ingredient_18').val(editSpan.nextAll('span.ingredient_18').first().html());
+    		$('#addEditForm').find('#ingredient_19').val(editSpan.nextAll('span.ingredient_19').first().html());
+    		$('#addEditForm').find('#ingredient_20').val(editSpan.nextAll('span.ingredient_20').first().html());
+    		
+    		$('#addEditForm').find('#ingredient_1_id').val(editSpan.nextAll('span.ingredient_1_id').first().html());
+    		$('#addEditForm').find('#ingredient_2_id').val(editSpan.nextAll('span.ingredient_2_id').first().html());
+    		$('#addEditForm').find('#ingredient_3_id').val(editSpan.nextAll('span.ingredient_3_id').first().html());
+    		$('#addEditForm').find('#ingredient_4_id').val(editSpan.nextAll('span.ingredient_4_id').first().html());
+    		$('#addEditForm').find('#ingredient_5_id').val(editSpan.nextAll('span.ingredient_5_id').first().html());
+    		$('#addEditForm').find('#ingredient_6_id').val(editSpan.nextAll('span.ingredient_6_id').first().html());
+    		$('#addEditForm').find('#ingredient_7_id').val(editSpan.nextAll('span.ingredient_7_id').first().html());
+    		$('#addEditForm').find('#ingredient_8_id').val(editSpan.nextAll('span.ingredient_8_id').first().html());
+    		$('#addEditForm').find('#ingredient_9_id').val(editSpan.nextAll('span.ingredient_9_id').first().html());
+    		$('#addEditForm').find('#ingredient_10_id').val(editSpan.nextAll('span.ingredient_10_id').first().html());
+    		$('#addEditForm').find('#ingredient_11_id').val(editSpan.nextAll('span.ingredient_11_id').first().html());
+    		$('#addEditForm').find('#ingredient_12_id').val(editSpan.nextAll('span.ingredient_12_id').first().html());
+    		$('#addEditForm').find('#ingredient_13_id').val(editSpan.nextAll('span.ingredient_13_id').first().html());
+    		$('#addEditForm').find('#ingredient_14_id').val(editSpan.nextAll('span.ingredient_14_id').first().html());
+    		$('#addEditForm').find('#ingredient_15_id').val(editSpan.nextAll('span.ingredient_15_id').first().html());
+    		$('#addEditForm').find('#ingredient_16_id').val(editSpan.nextAll('span.ingredient_16_id').first().html());
+    		$('#addEditForm').find('#ingredient_17_id').val(editSpan.nextAll('span.ingredient_17_id').first().html());
+    		$('#addEditForm').find('#ingredient_18_id').val(editSpan.nextAll('span.ingredient_18_id').first().html());
+    		$('#addEditForm').find('#ingredient_19_id').val(editSpan.nextAll('span.ingredient_19_id').first().html());
+    		$('#addEditForm').find('#ingredient_20_id').val(editSpan.nextAll('span.ingredient_20_id').first().html());
+    		
     		var availableTags = $( "[name=availableTags]" );
     		var tagIds = $( "#tagIds" );
     		availableTags.empty();
@@ -178,6 +470,15 @@
     	function findDeleteName(deleteLink){
     		return $(deleteLink).closest('span.dataCell').nextAll('span.name').first().html();
     	}
+    	function closeDialog() {
+    		$("#hidden-ingredients-group-1").hide();
+    		$("#hidden-ingredients-group-2").hide();
+    		$("#hidden-ingredients-group-3").hide();
+    		$("#hidden-ingredients-group-4").hide();
+    		$("#hidden-ingredients-group-5").hide();
+    		$("#hidden-ingredients-group-6").hide();
+    		$("#add-more-ingredients").show();
+    	}
     	//]]>
     </script>
     <style>
@@ -195,13 +496,13 @@
 			<form id="addEditForm" action="/recipes" th:action="@{~/recipes}" method="post">
 				<fieldset>
 					<label for="name">Name</label>
-					<input type="text" name="name" id="name" class="text ui-widget-content ui-corner-all"/>
+					<input type="text" name="name" id="name" class="text ui-widget-content ui-corner-all" value="AA"/>
 					<label for="description">Description</label>
 					<input type="text" name="description" id="description" class="text ui-widget-content ui-corner-all"/>
 					<label for="weight">Weight</label>
-					<input type="text" name="weight" id="weight" class="text ui-widget-content ui-corner-all"/>
+					<input type="text" name="weight" id="weight" class="text ui-widget-content ui-corner-all" value="5"/>
 					<label for="lunch" style="display:inline;">Lunch</label>
-					<input style="display:inline;" type="checkbox" name="lunch" id="lunch"/>
+					<input style="display:inline;" type="checkbox" name="lunch" id="lunch" checked="checked"/>
 					<br/>
 					<label for="dinner" style="display:inline;">Dinner</label>
 					<input style="display:inline;" type="checkbox" name="dinner" id="dinner"/>
@@ -220,12 +521,74 @@
 							<select name="tagIds" id="tagIds" class="form-control" size="5" multiple="multiple"></select>
 						</div>
 					</div>
+					<div class="row">
+						<label for="ingredients">Ingredients</label>
+						<span>
+							<input type="text" name="amounts" id="amount_1" data-array="true" class="text ui-widget-content ui-corner-all amount"/><input type="text" name="ingredients" data-array="true" data-hidden-id="ingredient_1_id" id="ingredient_1" class="text ui-widget-content ui-corner-all ingredient"/>
+							<input type="text" name="amounts" id="amount_2" data-array="true" class="text ui-widget-content ui-corner-all amount"/><input type="text" name="ingredients" data-array="true" data-hidden-id="ingredient_2_id" id="ingredient_2" class="text ui-widget-content ui-corner-all ingredient"/>
+							<input type="text" name="amounts" id="amount_3" data-array="true" class="text ui-widget-content ui-corner-all amount"/><input type="text" name="ingredients" data-array="true" data-hidden-id="ingredient_3_id" id="ingredient_3" class="text ui-widget-content ui-corner-all ingredient"/>
+						</span>
+						<span class="hidden-ingredients" id="hidden-ingredients-group-1">
+							<input type="text" name="amounts" id="amount_4" data-array="true" class="text ui-widget-content ui-corner-all amount"/><input type="text" name="ingredients" data-array="true" data-hidden-id="ingredient_4_id" id="ingredient_4" class="text ui-widget-content ui-corner-all ingredient"/>
+							<input type="text" name="amounts" id="amount_5" data-array="true" class="text ui-widget-content ui-corner-all amount"/><input type="text" name="ingredients" data-array="true" data-hidden-id="ingredient_5_id" id="ingredient_5" class="text ui-widget-content ui-corner-all ingredient"/>
+							<input type="text" name="amounts" id="amount_6" data-array="true" class="text ui-widget-content ui-corner-all amount"/><input type="text" name="ingredients" data-array="true" data-hidden-id="ingredient_6_id" id="ingredient_6" class="text ui-widget-content ui-corner-all ingredient"/>
+						</span>
+						<span class="hidden-ingredients" id="hidden-ingredients-group-2">
+							<input type="text" name="amounts" id="amount_7" data-array="true" class="text ui-widget-content ui-corner-all amount"/><input type="text" name="ingredients" data-array="true" data-hidden-id="ingredient_7_id" id="ingredient_7" class="text ui-widget-content ui-corner-all ingredient"/>
+							<input type="text" name="amounts" id="amount_8" data-array="true" class="text ui-widget-content ui-corner-all amount"/><input type="text" name="ingredients" data-array="true" data-hidden-id="ingredient_8_id" id="ingredient_8" class="text ui-widget-content ui-corner-all ingredient"/>
+							<input type="text" name="amounts" id="amount_9" data-array="true" class="text ui-widget-content ui-corner-all amount"/><input type="text" name="ingredients" data-array="true" data-hidden-id="ingredient_9_id" id="ingredient_9" class="text ui-widget-content ui-corner-all ingredient"/>
+						</span>
+						<span class="hidden-ingredients" id="hidden-ingredients-group-3">
+							<input type="text" name="amounts" id="amount_10" data-array="true" class="text ui-widget-content ui-corner-all amount"/><input type="text" name="ingredients" data-array="true" data-hidden-id="ingredient_10_id" id="ingredient_10" class="text ui-widget-content ui-corner-all ingredient"/>
+							<input type="text" name="amounts" id="amount_11" data-array="true" class="text ui-widget-content ui-corner-all amount"/><input type="text" name="ingredients" data-array="true" data-hidden-id="ingredient_11_id" id="ingredient_11" class="text ui-widget-content ui-corner-all ingredient"/>
+							<input type="text" name="amounts" id="amount_12" data-array="true" class="text ui-widget-content ui-corner-all amount"/><input type="text" name="ingredients" data-array="true" data-hidden-id="ingredient_12_id" id="ingredient_12" class="text ui-widget-content ui-corner-all ingredient"/>
+						</span>
+						<span class="hidden-ingredients" id="hidden-ingredients-group-4">
+							<input type="text" name="amounts" id="amount_13" data-array="true" class="text ui-widget-content ui-corner-all amount"/><input type="text" name="ingredients" data-array="true" data-hidden-id="ingredient_13_id" id="ingredient_13" class="text ui-widget-content ui-corner-all ingredient"/>
+							<input type="text" name="amounts" id="amount_14" data-array="true" class="text ui-widget-content ui-corner-all amount"/><input type="text" name="ingredients" data-array="true" data-hidden-id="ingredient_14_id" id="ingredient_14" class="text ui-widget-content ui-corner-all ingredient"/>
+							<input type="text" name="amounts" id="amount_15" data-array="true" class="text ui-widget-content ui-corner-all amount"/><input type="text" name="ingredients" data-array="true" data-hidden-id="ingredient_15_id" id="ingredient_15" class="text ui-widget-content ui-corner-all ingredient"/>
+						</span>
+						<span class="hidden-ingredients" id="hidden-ingredients-group-5">
+							<input type="text" name="amounts" id="amount_16" data-array="true" class="text ui-widget-content ui-corner-all amount"/><input type="text" name="ingredients" data-array="true" data-hidden-id="ingredient_16_id" id="ingredient_16" class="text ui-widget-content ui-corner-all ingredient"/>
+							<input type="text" name="amounts" id="amount_17" data-array="true" class="text ui-widget-content ui-corner-all amount"/><input type="text" name="ingredients" data-array="true" data-hidden-id="ingredient_17_id" id="ingredient_17" class="text ui-widget-content ui-corner-all ingredient"/>
+							<input type="text" name="amounts" id="amount_18" data-array="true" class="text ui-widget-content ui-corner-all amount"/><input type="text" name="ingredients" data-array="true" data-hidden-id="ingredient_18_id" id="ingredient_18" class="text ui-widget-content ui-corner-all ingredient"/>
+						</span>
+						<span class="hidden-ingredients" id="hidden-ingredients-group-6">
+							<input type="text" name="amounts" id="amount_19" data-array="true" class="text ui-widget-content ui-corner-all amount"/><input type="text" name="ingredients" data-array="true" data-hidden-id="ingredient_19_id" id="ingredient_19" class="text ui-widget-content ui-corner-all ingredient"/>
+							<input type="text" name="amounts" id="amount_20" data-array="true" class="text ui-widget-content ui-corner-all amount"/><input type="text" name="ingredients" data-array="true" data-hidden-id="ingredient_20_id" id="ingredient_20" class="text ui-widget-content ui-corner-all ingredient"/>
+						</span>
+					</div>
+					<div>
+						<a href="#" id="add-more-ingredients">Add More Ingredients</a>
+					</div>
 					<input type="text" name="id" id="id" class="hidden"/>
+					<input type="text" name="ingredient_1_id" id="ingredient_1_id" class="hidden"/>
+					<input type="text" name="ingredient_2_id" id="ingredient_2_id" class="hidden"/>
+					<input type="text" name="ingredient_3_id" id="ingredient_3_id" class="hidden"/>
+					<input type="text" name="ingredient_4_id" id="ingredient_4_id" class="hidden"/>
+					<input type="text" name="ingredient_5_id" id="ingredient_5_id" class="hidden"/>
+					<input type="text" name="ingredient_6_id" id="ingredient_6_id" class="hidden"/>
+					<input type="text" name="ingredient_7_id" id="ingredient_7_id" class="hidden"/>
+					<input type="text" name="ingredient_8_id" id="ingredient_8_id" class="hidden"/>
+					<input type="text" name="ingredient_9_id" id="ingredient_9_id" class="hidden"/>
+					<input type="text" name="ingredient_10_id" id="ingredient_10_id" class="hidden"/>
+					<input type="text" name="ingredient_11_id" id="ingredient_11_id" class="hidden"/>
+					<input type="text" name="ingredient_12_id" id="ingredient_12_id" class="hidden"/>
+					<input type="text" name="ingredient_13_id" id="ingredient_13_id" class="hidden"/>
+					<input type="text" name="ingredient_14_id" id="ingredient_14_id" class="hidden"/>
+					<input type="text" name="ingredient_15_id" id="ingredient_15_id" class="hidden"/>
+					<input type="text" name="ingredient_16_id" id="ingredient_16_id" class="hidden"/>
+					<input type="text" name="ingredient_17_id" id="ingredient_17_id" class="hidden"/>
+					<input type="text" name="ingredient_18_id" id="ingredient_18_id" class="hidden"/>
+					<input type="text" name="ingredient_19_id" id="ingredient_19_id" class="hidden"/>
+					<input type="text" name="ingredient_20_id" id="ingredient_20_id" class="hidden"/>
 					<input type="submit" tabindex="-1" style="position:absolute; top:-1000px"/>
 				</fieldset>
 			</form>
 		</div>
 	
+		<button id="create-record">Create New</button>
+		<br/><br/>	
 		<div class="table">
 			<div class="records-header">
 				<span class="edit delete icon"></span>
@@ -236,13 +599,14 @@
 			    <span class="headerCell dataCell">Lunch</span>
 			    <span class="headerCell dataCell">Dinner</span>
 			    <span class="headerCell dataCell">Tags</span>
+			    <span class="headerCell dataCell">Ingredients</span>
 			</div>
 			<div class="records-rows" th:each="recipe : ${allRecipes}" th:classappend="|id${recipe.id}">
 				<span class="dataCell">
 					<span class="edit icon"><a href="#" class="editLink" th:attr="data-id=${recipe.id}"><img border="0" alt="Edit" src="/images/edit.png" th:src="@{~/images/edit.png}"/></a></span>
 					<span class="delete icon"><a href="#" class="deleteLink" th:attr="data-id=${recipe.id}"><img border="0" alt="Delete" src="/images/delete.png" th:src="@{~/images/delete.png}"/></a></span>
 				</span>
-				<span class="name dataCell" th:text="${recipe.name}">Name</span>
+				<span class="name dataCell" th:utext="${recipe.name}">Name</span>
 				<span class="description dataCell" th:text="${recipe.description}">Description</span>
 				<!--<span class="leftovers dataCell" th:text="${recipe.leftovers}">Yields Leftovers</span>-->
 				<span class="weight dataCell" th:text="${recipe.weight}">Frequency</span>
@@ -253,7 +617,18 @@
 						<span th:text="${tag.name}">Tag</span><br/>
 					</span>
 				</span>
+				<span class="ingredients dataCell">
+					<th:block th:each="ingredient : ${recipe.ingredients}">
+						<span th:utext="|${ingredient.amount} - |" th:if="${ingredient.amount} != null">Amount</span>
+						<span th:utext="${ingredient.name}">Ingredient</span><br/>
+					</th:block>
+				</span>
 				<span class="id cell hidden" th:text="${recipe.id}">Hidden PK ID</span>
+				<th:block th:each="ingredient, stat : ${recipe.ingredients}">
+					<span class="cell hidden" th:classappend="|amount_${stat.count}" th:text="${ingredient.amount}">Hidden Amount</span>
+					<span class="cell hidden" th:classappend="|ingredient_${stat.count}" th:text="${ingredient.name}">Hidden Ingredient Name</span>
+					<span class="cell hidden" th:classappend="|ingredient_${stat.count}_id|" th:text="${ingredient.id}">Hidden Ingredient Id</span>
+				</th:block>
 				<span class="tagsList cell hidden" th:text="${recipe.tagsString}">Hidden Tags String</span>
 			</div>
 		</div>

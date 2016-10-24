@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.meals.domain.RecipeMealType;
 import com.meals.dto.RecipeDTO;
+import com.meals.repository.IngredientRepository;
 import com.meals.repository.RecipeMealTypeRepository;
 import com.meals.repository.TagRepository;
 
@@ -24,6 +25,8 @@ public class RecipeController extends BaseController {
 	private RecipeMealTypeRepository recipeMealTypeRepository;
 	@Autowired
 	private TagRepository tagRepository;
+	@Autowired
+	private IngredientRepository ingredientRepository;
 
 	@RequestMapping({ "/recipes.html" })
 	public String recipes(Model model, HttpServletRequest request) throws IOException {
@@ -42,6 +45,7 @@ public class RecipeController extends BaseController {
 		}
 		model.addAttribute("allRecipes", recipeIdsToRecipe.values());
 		model.addAttribute("allTags", convertToTagDTOs(this.tagRepository.findAll(sortByNameAsc())));
+		model.addAttribute("allIngredients", convertToIngredientDTOs(ingredientRepository.findAll(sortByNameAsc())));
 		return "recipes";
 	}
 }

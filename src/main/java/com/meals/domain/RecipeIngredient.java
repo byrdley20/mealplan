@@ -11,7 +11,7 @@ import javax.persistence.Table;
 import com.google.gson.annotations.Expose;
 
 @Entity
-@Table(name = "RECIPE")
+@Table(name = "RECIPE_INGREDIENT")
 public class RecipeIngredient extends BaseDomain {
 	@Id
 	@GeneratedValue

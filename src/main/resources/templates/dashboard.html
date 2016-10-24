@@ -68,10 +68,20 @@
 			    	events: '/rest/recipeAssignments/betweenDates',
 			        eventClick: function(calEvent, jsEvent, view) {
 
-			            //alert('Event: ' + calEvent.title);
+			            //alert('Event: ' + calEvent.recipeId);
 
 			            // change the border color just for fun
 			            //$(this).css('border-color', 'red');
+	                    $.ajax({
+    			            url: "/rest/recipeIngredients/"+calEvent.recipeId,
+    			            type:'GET',
+    			            success:function(response){
+    			            	showIngredients(calEvent.title, response, jsEvent);
+    			            },
+    			            error:function(res){
+    			            	alert("Error! Unable to retrieve ingredients! Tell Jeff it's broken!");
+    			            }
+    			       	});
 
 			        },
 			        eventOrder: 'order',
@@ -101,26 +111,45 @@
 			        	return $(window).height() - $("#header").height() - 10;
 			        },
 			        customButtons: {
-			            myCustomButton: {
+			            generateButton: {
 			                text: 'Generate Recipes',
 			                click: function() {
 			                	var moment = $('#calendar').fullCalendar('getDate');
 			                	
-			                    $.ajax({
-		    			            url: "/rest/recipeAssignments/"+(moment.month()+1)+"/generate",
-		    			            type:'GET',
-		    			            success:function(resObj, status, fullResponse){
-		    			            	$('#calendar').fullCalendar( 'refetchEvents' );
-		    			            },
-		    			            error:function(res){
-		    			            	alert("Error! Unable to generate recipes! Tell Jeff it's broken!");
-		    			            }
-		    			       	});
+			                	$("#generateDialog").dialog({
+					    		      buttons : {
+					    		        "Yes" : function() {
+						                    $.ajax({
+					    			            url: "/rest/recipeAssignments/"+(moment.month()+1)+"/generate",
+					    			            type:'GET',
+					    			            success:function(resObj, status, fullResponse){
+					    			            	$('#calendar').fullCalendar( 'refetchEvents' );
+					    			            },
+					    			            error:function(res){
+					    			            	alert("Error! Unable to generate recipes! Tell Jeff it's broken!");
+					    			            }
+					    			       	});
+					    		        	$(this).dialog("close");
+					    		        },
+					    		        "No" : function() {
+					    		          $(this).dialog("close");
+					    		        }
+					    		      }
+					    		    });
+				    			$("#generateDialog").html("Are you sure you want to generate all new recipes for this month?");
+					    		$("#generateDialog").dialog("open");
+			                }
+			            },
+			            shoppingListButton: {
+			                text: 'Shopping List',
+			                click: function() {
+			                	var moment = $('#calendar').fullCalendar('getDate');
+			                	window.location = "shoppingList.html?month="+(moment.month()+1);
 			                }
 			            }
 			        },
 			        header: {
-			            left: 'myCustomButton',
+			            left: 'generateButton shoppingListButton',
 			            center: 'title',
 			            right: 'today prev,next'
 			        },
@@ -185,6 +214,7 @@
 			    
 	    		$(document).on('click','.deleteIcon',function(){
 	    			var id = $(this).attr("data-id");
+	    			$("#ingredientsDialog").dialog("close");
 	    			$("#deleteDialog").dialog({
 		    		      buttons : {
 		    		        "Yes" : function() {
@@ -192,7 +222,6 @@
 		    			            url: "/rest/recipeAssignments/"+id,
 		    			            type:'DELETE',
 		    			            success:function(resObj, status, fullResponse){
-		    			            	//alert('success!');
 		    			            	$('#calendar').fullCalendar( 'refetchEvents' )
 		    			            },
 		    			            error:function(res){
@@ -245,6 +274,18 @@
 	    		      autoOpen: false,
 	    		      modal: true,
 	    		      dialogClass: "no-title"
+	    		});
+	    		
+	    		$("#generateDialog").dialog({
+	    		      autoOpen: false,
+	    		      modal: true,
+	    		      dialogClass: "no-title"
+	    		});
+	    		
+	    		$("#ingredientsDialog").dialog({
+	    		      autoOpen: false,
+	    		      modal: true,
+	    		      closeText: ""
 	    		});
 	    		
 	    		$("#tagDialog").dialog({
@@ -389,6 +430,28 @@
 		            }
 		       	});
     		}
+    		function showIngredients(recipeName, ingredients, jsEvent) {
+    			if($("#deleteDialog").dialog('isOpen') != true) {
+	    			$("#ingredientsDialog").dialog({
+		    		      buttons: {},
+		    		      title: recipeName,
+		    		      position: {
+		    		    	  my: "left top",
+		    		    	  of: jsEvent
+		    		      } 
+		    		    });
+	    			var ingredientsText = "";
+	    			for (i=0; i < ingredients.length; i++) {
+	    				var ingredient = ingredients[i];
+	    				if(ingredient.amount) {
+	    					ingredientsText += ingredient.amount +" - ";
+	    				}
+	    				ingredientsText += ingredient.name + "<br/>";
+	    			}
+	  				$("#ingredientsDialog").html(ingredientsText);
+		    		$("#ingredientsDialog").dialog("open");
+    			}
+    		}
     	//]]>
     </script>
     <style>
@@ -400,6 +463,8 @@
 	<div th:replace="includes/header :: header">...</div>
 	
 	<div id="deleteDialog"></div>
+	<div id="generateDialog"></div>
+	<div id="ingredientsDialog"></div>
 	
 	<div id="tagDialog" title="Add Tag">
 		<p class="validateTips"></p>

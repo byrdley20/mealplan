@@ -13,6 +13,8 @@ public class Event {
 	private int order;
 	@Expose
 	private long recipeAssignmentId;
+	@Expose
+	private long recipeId;
 
 	public String getTitle() {
 		return title;
@@ -52,5 +54,13 @@ public class Event {
 
 	public void setRecipeAssignmentId(long recipeAssignmentId) {
 		this.recipeAssignmentId = recipeAssignmentId;
+	}
+
+	public long getRecipeId() {
+		return recipeId;
+	}
+
+	public void setRecipeId(long recipeId) {
+		this.recipeId = recipeId;
 	}
 }

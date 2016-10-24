@@ -81,6 +81,7 @@ public class RecipeAssignmentRestController extends BaseRestController {
 			event.setStart(recipeAssignment.getCalendarDate());
 			event.setOrder(recipeAssignment.getRecipeMealType().getMealType().getOrdering());
 			event.setRecipeAssignmentId(recipeAssignment.getId());
+			event.setRecipeId(recipeAssignment.getRecipeMealType().getRecipe().getId());
 			events.add(event);
 		}
 		return new Gson().toJson(events);

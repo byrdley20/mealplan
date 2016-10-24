@@ -12,10 +12,14 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.meals.common.AppConstants;
 import com.meals.domain.BaseDomain;
+import com.meals.domain.Ingredient;
 import com.meals.domain.Recipe;
+import com.meals.domain.RecipeIngredient;
 import com.meals.domain.RecipeMealType;
 import com.meals.domain.RecipeTag;
 import com.meals.domain.Tag;
+import com.meals.dto.IngredientDTO;
+import com.meals.dto.IngredientTypeDTO;
 import com.meals.dto.RecipeDTO;
 import com.meals.dto.TagDTO;
 
@@ -63,7 +67,26 @@ public class BaseController {
 					}
 				}
 
-				return new RecipeDTO(recipe.getId(), recipe.getName(), recipe.isLeftovers(), recipe.getDescription(), recipe.getWeight(), lunch, dinner, tags);
+				List<IngredientDTO> ingredients = new ArrayList<IngredientDTO>();
+
+				List<RecipeIngredient> recipeIngredients = recipe.getRecipeIngredients();
+				if (recipeIngredients != null) {
+					for (RecipeIngredient recipeIngredient : recipeIngredients) {
+						IngredientTypeDTO ingredientType = new IngredientTypeDTO();
+						ingredientType.setId(recipeIngredient.getIngredient().getIngredientType().getId());
+						ingredientType.setName(recipeIngredient.getIngredient().getIngredientType().getName());
+
+						IngredientDTO ingredient = new IngredientDTO();
+						ingredient.setId(recipeIngredient.getIngredient().getId());
+						ingredient.setDescription(recipeIngredient.getIngredient().getDescription());
+						ingredient.setName(recipeIngredient.getIngredient().getName());
+						ingredient.setIngredientType(ingredientType);
+						ingredient.setAmount(recipeIngredient.getAmount());
+						ingredients.add(ingredient);
+					}
+				}
+
+				return new RecipeDTO(recipe.getId(), recipe.getName(), recipe.isLeftovers(), recipe.getDescription(), recipe.getWeight(), lunch, dinner, tags, ingredients);
 			}
 
 		}, recipeDTOs);
@@ -83,6 +106,24 @@ public class BaseController {
 		}, tagDTOs);
 		Collections.sort(tagDTOs);
 		return tagDTOs;
+	}
+
+	protected List<IngredientDTO> convertToIngredientDTOs(List<Ingredient> ingredients) {
+		List<IngredientDTO> ingredientDTOs = new ArrayList<IngredientDTO>();
+		CollectionUtils.collect(ingredients, new Transformer() {
+			@Override
+			public Object transform(Object o) {
+				Ingredient ingredient = (Ingredient) o;
+				return convertToIngredientDTO(ingredient);
+			}
+
+		}, ingredientDTOs);
+		Collections.sort(ingredientDTOs);
+		return ingredientDTOs;
+	}
+
+	protected IngredientDTO convertToIngredientDTO(Ingredient ingredient) {
+		return new IngredientDTO(ingredient.getId(), ingredient.getName(), ingredient.getDescription(), new IngredientTypeDTO(ingredient.getIngredientType().getId(), ingredient.getIngredientType().getName()));
 	}
 
 	protected Sort sortByNameAsc() {

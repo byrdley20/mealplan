@@ -5,8 +5,9 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,14 +16,19 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.meals.common.AppConstants;
+import com.meals.domain.Ingredient;
 import com.meals.domain.MealType;
 import com.meals.domain.Recipe;
+import com.meals.domain.RecipeIngredient;
 import com.meals.domain.RecipeMealType;
 import com.meals.domain.RecipeTag;
 import com.meals.domain.Tag;
+import com.meals.dto.IngredientDTO;
 import com.meals.dto.RecipeDTO;
+import com.meals.repository.IngredientRepository;
 import com.meals.repository.MealTypeRepository;
 import com.meals.repository.RecipeAssignmentRepository;
+import com.meals.repository.RecipeIngredientRepository;
 import com.meals.repository.RecipeMealTypeRepository;
 import com.meals.repository.RecipeRepository;
 import com.meals.repository.RecipeTagRepository;
@@ -43,6 +49,10 @@ public class RecipeRestController extends BaseRestController {
 	private RecipeMealTypeRepository recipeMealTypeRepository;
 	@Autowired
 	private RecipeAssignmentRepository recipeAssignmentRepository;
+	@Autowired
+	private IngredientRepository ingredientRepository;
+	@Autowired
+	private RecipeIngredientRepository recipeIngredientRepository;
 
 	@RequestMapping(method = RequestMethod.GET)
 	Collection<Recipe> all() {
@@ -67,11 +77,36 @@ public class RecipeRestController extends BaseRestController {
 
 		Recipe savedRecipe = this.recipeRepository.save(recipe);
 
+		List<String> amounts = recipeDTO.getAmounts();
+
+		this.recipeIngredientRepository.deleteByRecipe(savedRecipe);
+
+		if (CollectionUtils.isNotEmpty(recipeDTO.getIngredients())) {
+			for (int i = 0; i < recipeDTO.getIngredients().size(); i++) {
+				IngredientDTO ingredientDTO = recipeDTO.getIngredients().get(i);
+				if (ingredientDTO.getId() != null) {
+					Ingredient ingredient = ingredientRepository.findOne(ingredientDTO.getId());
+					RecipeIngredient recipeIngredient = new RecipeIngredient();
+					recipeIngredient.setRecipe(savedRecipe);
+					recipeIngredient.setIngredient(ingredient);
+					// set amount if it exists
+					if (CollectionUtils.isNotEmpty(amounts)) {
+						String amount = amounts.get(i);
+						if (StringUtils.isNotBlank(amount)) {
+							recipeIngredient.setAmount(amount);
+						}
+					}
+					this.recipeIngredientRepository.save(recipeIngredient);
+				}
+			}
+		}
+
 		updateRecipeMealType(savedRecipe, AppConstants.MEAL_TYPE_LUNCH, recipeDTO.isLunch());
 		updateRecipeMealType(savedRecipe, AppConstants.MEAL_TYPE_DINNER, recipeDTO.isDinner());
 
 		updateTags(recipeDTO, savedRecipe);
-		return convertToRecipeDTOWithTags(savedRecipe, recipeDTO.isLunch(), recipeDTO.isDinner());
+		savedRecipe.setRecipeIngredients(recipeIngredientRepository.findByRecipe(savedRecipe));
+		return convertToRecipeDTOWithTagsAndIngredients(savedRecipe, recipeDTO.isLunch(), recipeDTO.isDinner());
 	}
 
 	private void updateRecipeMealType(Recipe savedRecipe, String mealTypeName, boolean isMealType) {
@@ -95,6 +130,7 @@ public class RecipeRestController extends BaseRestController {
 	void delete(@PathVariable Long id) {
 		Recipe recipe = recipeRepository.findOne(id);
 		recipeMealTypeRepository.deleteByRecipe(recipe);
+		recipeIngredientRepository.deleteByRecipe(recipe);
 		recipeTagRepository.deleteByRecipe(recipe);
 		this.recipeRepository.delete(id);
 	}

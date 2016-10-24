@@ -22,8 +22,8 @@ public class TagDTO implements Comparable<TagDTO> {
 	}
 
 	@Override
-	public int compareTo(TagDTO comparingRecipe) {
-		return this.name.compareTo(comparingRecipe.getName());
+	public int compareTo(TagDTO comparingTag) {
+		return this.name.compareTo(comparingTag.getName());
 	}
 
 	public Long getId() {

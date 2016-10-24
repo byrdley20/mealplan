@@ -1,8 +1,11 @@
 package com.meals.domain;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.google.gson.annotations.Expose;
@@ -18,6 +21,11 @@ public class Ingredient extends BaseDomain {
 	private String name;
 	@Expose
 	private String description;
+
+	@ManyToOne(targetEntity = IngredientType.class, cascade = { CascadeType.REFRESH })
+	@JoinColumn(name = "INGREDIENT_TYPE_ID")
+	@Expose
+	private IngredientType ingredientType;
 
 	public String getName() {
 		return name;
@@ -37,5 +45,13 @@ public class Ingredient extends BaseDomain {
 
 	public Long getId() {
 		return id;
+	}
+
+	public IngredientType getIngredientType() {
+		return ingredientType;
+	}
+
+	public void setIngredientType(IngredientType ingredientType) {
+		this.ingredientType = ingredientType;
 	}
 }

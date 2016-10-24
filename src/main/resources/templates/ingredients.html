@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Byrd Meal Plan | Tags</title>
+    <title>Byrd Meal Plan | Ingredients</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW"/>
 	
@@ -19,21 +19,37 @@
     <script th:inline="javascript">
     	/*<![CDATA[*/
     	           
+    	var ingredientTypes = {};
+    	           
+		function buildOptions(){
+			var allIngredientTypes = /*[[${allIngredientTypes}]]*/;
+			for(var i=0; i < allIngredientTypes.length; i++) {
+				var ingredientType = allIngredientTypes[i];
+				ingredientTypes[ingredientType.id] = ingredientType;
+			}
+		}
+    	           
 		var lengthValidation = [];
     	           
     	$(function() {
     		var id = $( "#id" ),
     		name = $( "#name" ),
-    		description = $( "#description" );
+    		description = $( "#description" ),
+    		ingredientType = $( "#ingredientType" );
     		
-        	allFields = $( [] ).add( id ).add( name ).add( description );
-        	addUpdatePath = "/rest/tags";
-        	deletePath = "/rest/tags";
+        	allFields = $( [] ).add( id ).add( name ).add( description ).add( ingredientType );
+        	addUpdatePath = "/rest/ingredients";
+        	deletePath = "/rest/ingredients";
     		
     		createDialog(true);
     		
     		lengthValidation[lengthValidation.length] = createLengthValidationObject(name, "'Name'", 1, 100);
        	});
+    	function setSelectValue(formData, element) {
+			if(element.name == 'ingredientType'){
+				formData[element.name] = ingredientTypes[element.value];
+			}
+    	}
     	function writeCreatedRecord(savedRecord){
     		var elementBefore;
     		if($(".records-rows").length){
@@ -49,7 +65,9 @@
 			    	"</span>" +
 			    	"<span class='name dataCell'>"+savedRecord.name+"</span> " +
 			    	"<span class='description dataCell'>"+savedRecord.description+"</span> " +
+			    	"<span class='ingredientType dataCell'>"+savedRecord.ingredientType.name+"</span> " +
 			    	"<span class='id cell hidden'>"+savedRecord.id+"</span> " +
+			    	"<span class='ingredientTypeId cell hidden'>"+savedRecord.ingredientType.id+"</span> " +
 		    	"</div>" );    		
     	}
     	function writeEditRecord(savedRecord){
@@ -57,12 +75,18 @@
     		editedRow.find('.name').html(savedRecord.name);
     		editedRow.find('.description').html(savedRecord.description);
     		editedRow.find('.id').html(savedRecord.id);
+    		editedRow.find('.ingredientType').html(savedRecord.ingredientType.name);
     		editedRow.addClass('new-row');
     	}
     	function populateEditForm(editLink){
 	   		var editSpan = $(editLink).closest('span.dataCell');
     		$('#addEditForm').find('#name').val(editSpan.nextAll('span.name').first().html());
     		$('#addEditForm').find('#description').val(editSpan.nextAll('span.description').first().html());
+    		
+    		var ingredientTypeIdSpan = editSpan.nextAll('span.ingredientTypeId');
+    		var ingredientTypeOptionStr = "select option[value='"+ingredientTypeIdSpan.html()+"']";
+    		$('#addEditForm').find(ingredientTypeOptionStr).prop('selected','selected');
+    		
     		$('#addEditForm').find('#id').val(editSpan.nextAll('span.id').first().html());
     	}
     	function findDeleteName(deleteLink){
@@ -80,21 +104,28 @@
 	<div th:replace="includes/header :: header">...</div>
 	
 	<div id="main-content">
-		<H1>Tags</H1>
-		<div id="dialog-form" title="Tag">
+		<H1>Ingredients</H1>
+		<div id="dialog-form" title="Ingredient">
 			<p class="validateTips"></p>
-			<form id="addEditForm" action="/tags" th:action="@{~/tags}" method="post">
+			<form id="addEditForm" action="/ingredients" th:action="@{~/ingredients}" method="post">
 				<fieldset>
 					<label for="name">Name</label>
 					<input type="text" name="name" id="name" class="text ui-widget-content ui-corner-all"/>
 					<label for="description">Description</label>
 					<input type="text" name="description" id="description" class="text ui-widget-content ui-corner-all"/>
+					
+					<label for="email">Type</label>
+					<select id="ingredientType" name="ingredientType" class="ui-widget-content ui-corner-all">
+						<option value="-1">--</option>
+						<option th:each="ingredientType : ${allIngredientTypes}" th:text="${ingredientType.name}" th:value="${ingredientType.id}">${ingredientType.name}</option>
+					</select>
+					
 					<input type="text" name="id" id="id" class="hidden"/>
 					<input type="submit" tabindex="-1" style="position:absolute; top:-1000px"/>
 				</fieldset>
 			</form>
 		</div>
-	
+
 		<button id="create-record">Create New</button>
 		<br/><br/>	
 		<div class="table">
@@ -102,15 +133,18 @@
 				<span class="edit delete icon"></span>
 			    <span class="headerCell dataCell">Name</span>
 			    <span class="headerCell dataCell">Description</span>
+			    <span class="headerCell dataCell">Type</span>
 			</div>
-			<div class="records-rows" th:each="tag : ${allTags}" th:classappend="|id${tag.id}">
+			<div class="records-rows" th:each="ingredient : ${allIngredients}" th:classappend="|id${ingredient.id}">
 				<span class="dataCell">
-					<span class="edit icon"><a href="#" class="editLink" th:attr="data-id=${tag.id}"><img border="0" alt="Edit" src="/images/edit.png" th:src="@{~/images/edit.png}"/></a></span>
-					<span class="delete icon"><a href="#" class="deleteLink" th:attr="data-id=${tag.id}"><img border="0" alt="Delete" src="/images/delete.png" th:src="@{~/images/delete.png}"/></a></span>
+					<span class="edit icon"><a href="#" class="editLink" th:attr="data-id=${ingredient.id}"><img border="0" alt="Edit" src="/images/edit.png" th:src="@{~/images/edit.png}"/></a></span>
+					<span class="delete icon"><a href="#" class="deleteLink" th:attr="data-id=${ingredient.id}"><img border="0" alt="Delete" src="/images/delete.png" th:src="@{~/images/delete.png}"/></a></span>
 				</span>
-				<span class="name dataCell" th:text="${tag.name}">Name</span>
-				<span class="description dataCell" th:text="${tag.description}">Description</span>
-				<span class="id cell hidden" th:text="${tag.id}">Hidden PK ID</span>
+				<span class="name dataCell" th:text="${ingredient.name}">Name</span>
+				<span class="description dataCell" th:text="${ingredient.description}">Description</span>
+				<span class="ingredientType dataCell" th:text="${ingredient.ingredientType.name}">Type</span>
+				<span class="id cell hidden" th:text="${ingredient.id}">Hidden PK ID</span>
+				<span class="ingredientTypeId cell hidden" th:text="${ingredient.ingredientType.id}">Hidden Ingredient Type Id</span>
 			</div>
 		</div>
 		<button id="create-record">Create New</button>

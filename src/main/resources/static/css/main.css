@@ -194,6 +194,23 @@ button.login-button:hover,
     padding: 3px 10px;
     border: none;
 }
+.shoppingListMasterTable {
+	background-color: #fff;
+}
+.shoppingListTable {
+	border: 1px solid black;
+}
+.shoppingListTableCell {
+	vertical-align: top;
+}
+.shoppingListCell {
+	border: 1px solid black;
+	text-align: center;
+}
+.shoppingListSubTitle {
+	font-weight: bold;
+	text-decoration: underline;
+}
 .icon {
     display: table-cell;
 }
@@ -366,7 +383,8 @@ span.fc-title {
     white-space: normal;
 }
 
-.fc-myCustomButton-button,
+.fc-generateButton-button,
+.fc-shoppingListButton-button,
 .fc-today-button,
 .fc-prev-button,
 .fc-next-button {
@@ -411,6 +429,24 @@ span.fc-title {
 #calendar { padding-top: 10px; }
 .fc-left { margin-left: 35px !important; }
 .fc-right { margin-right: 35px !important; }
+
+input.ingredient,
+input.amount {
+	display: inline;
+}
+
+input.amount {
+	width: 15%;
+	margin-right: 10px;
+}
+
+input.ingredient {
+	width: 70%;
+}
+
+.hidden-ingredients {
+	display: none;
+}
 
 @media print {
 	.dateTags,
