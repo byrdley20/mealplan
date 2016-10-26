@@ -15,6 +15,12 @@ public interface RecipeAssignmentRepository extends BaseRepository<RecipeAssignm
 
 	List<RecipeAssignment> findByDateBetweenOrderByDateAsc(Date startDate, Date endDate);
 
+	// @Query("SELECT ra FROM RecipeAssignment ra WHERE ra.date between :startDate and :endDate")
+	// List<RecipeAssignment> findByDateBetweenOrderByDateAsc(@Param("startDate") Date startDate, @Param("endDate") Date endDate);
+
+	// @Query("SELECT new com.meals.dto.RecipeAssignmentDTO(ra.id, ra.recipeMealType, ra.date, ra.recipeIngredients, ri.id) FROM RecipeAssignment ra left outer join RecipeIngredient ri on ri.recipe.id=ra.recipeMealType.recipe.id WHERE ra.date between :startDate and :endDate")
+	// List<RecipeAssignmentDTO> findByDateBetweenOrderByDateAsc(@Param("startDate") Date startDate, @Param("endDate") Date endDate);
+
 	void deleteByDate(Date date);
 
 	@Modifying

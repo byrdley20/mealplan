@@ -88,7 +88,12 @@
 			        editable: true,
 			        eventRender: function(event, element) {
 			            var titleElement = $(element).find("span.fc-title");
-			            titleElement.html("<span class='deleteIcon' style='background-color:red; display:none; font-size:.7em;' data-title='"+event.title+"' data-id='"+event.recipeAssignmentId+"' data-date='"+event.start.format()+"'>DELETE</span> "+titleElement.html());
+			            var deleteSpan = "<span class='deleteIcon' style='background-color:red; display:none; font-size:.7em;' data-title='"+event.title+"' data-id='"+event.recipeAssignmentId+"' data-date='"+event.start.format()+"'>DELETE</span> ";
+			            var hasIngredientsSpan = "";
+			            if(!event.hasIngredients) {
+			            	hasIngredientsSpan = " <span class='warningIcon' title='No Ingredients!'><img width='10' height='10' src='"+contextPath+"/images/warning.png'/></span>";
+			            }
+			            titleElement.html(deleteSpan+titleElement.html()+hasIngredientsSpan);
 			        },
 			        dayRender: function(date, cell) {
 			        	var tags = "<div class='dateTags' data-date="+date.format()+" style='float:left'></div>";

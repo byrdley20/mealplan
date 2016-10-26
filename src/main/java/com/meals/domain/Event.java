@@ -15,6 +15,8 @@ public class Event {
 	private long recipeAssignmentId;
 	@Expose
 	private long recipeId;
+	@Expose
+	private boolean hasIngredients;
 
 	public String getTitle() {
 		return title;
@@ -62,5 +64,13 @@ public class Event {
 
 	public void setRecipeId(long recipeId) {
 		this.recipeId = recipeId;
+	}
+
+	public boolean isHasIngredients() {
+		return hasIngredients;
+	}
+
+	public void setHasIngredients(boolean hasIngredients) {
+		this.hasIngredients = hasIngredients;
 	}
 }
